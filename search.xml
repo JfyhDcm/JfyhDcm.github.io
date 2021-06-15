@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/05/31/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>动态规划</title>
+    <url>/2021/06/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
+    <content><![CDATA[<h3 id="最大子序和"><a href="#最大子序和" class="headerlink" title="最大子序和"></a><center>最大子序和</center></h3><p>输入：nums = [-2,1,-3,4,-1,2,1,-5,4] </p>
+<p>输出：6 </p>
+<p>解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。</p>
+<p>思路：dp[i]代表以i结束的最大子序列和，对于每个当前的i，都是必选的。要么选择前面的加和，要么不选。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>* nums, <span class="keyword">int</span> numsSize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> dp[<span class="number">30000</span>];</span><br><span class="line">    dp[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">int</span> max=nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;numsSize;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        dp[i]=(dp[i<span class="number">-1</span>]+nums[i]&gt;nums[i]?(dp[i<span class="number">-1</span>]+nums[i]):nums[i]);</span><br><span class="line">        max=(dp[i]&gt;max?dp[i]:max);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a><center>最长回文子串</center></h3><p>输入：s = “babad” </p>
+<p>输出：”bab” </p>
+<p>解释：”aba” 同样是符合题意的答案。</p>
+<p>思路：搜索边界是长度为1的字符串，搜索方式是按照字符串长度的递增进行搜索。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">longestPalindrome</span><span class="params">(<span class="keyword">char</span> * s)</span></span>&#123;</span><br><span class="line"><span class="comment">//分析：动态规划中的边界，就是当只有一个字母时，肯定是回文。</span></span><br><span class="line"><span class="comment">//第二种边界就是有两个连续一样的字母，是回文</span></span><br><span class="line"><span class="comment">//针对这两点可以分开来，用if else 语句分别来判断</span></span><br><span class="line"><span class="keyword">int</span> length =(<span class="keyword">int</span>)<span class="built_in">strlen</span>(s);</span><br><span class="line"><span class="keyword">if</span>(length==<span class="number">0</span>||length==<span class="number">1</span>)</span><br><span class="line"><span class="keyword">return</span> s;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> table[<span class="number">1000</span>][<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)</span><br><span class="line">&#123;</span><br><span class="line"> table[i][i]=<span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> start=<span class="number">0</span>;<span class="keyword">int</span> len=<span class="number">1</span>;<span class="comment">//字符开始的位置和长度</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;length;j++)<span class="comment">//方向采用的是自上而下</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;j;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(s[i]==s[j])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(j-i&lt;<span class="number">3</span>)<span class="comment">//这个有一个，两个，三个，字母的时候，根本不用看里面，只要s[i]==s[j]就行</span></span><br><span class="line">            &#123;</span><br><span class="line">                table[i][j]=<span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">           <span class="keyword">else</span> </span><br><span class="line">               table[i][j]=table[i+<span class="number">1</span>][j<span class="number">-1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        table[i][j]=<span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(table[i][j]&amp;&amp;(j-i+<span class="number">1</span>)&gt;len)</span><br><span class="line">        &#123;</span><br><span class="line">            start = i;</span><br><span class="line">            len =j-i+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">s[start+len]=<span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line"><span class="keyword">return</span>(s+start);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="不同路径个数"><a href="#不同路径个数" class="headerlink" title="不同路径个数"></a><center>不同路径个数</center></h3>]]></content>
+      <categories>
+        <category>algorithm</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一些语法问题</title>
+    <url>/2021/06/14/%E4%B8%80%E4%BA%9B%E8%AF%AD%E6%B3%95%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/05/31/%E6%8C%87%E9%92%88/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+</search>
