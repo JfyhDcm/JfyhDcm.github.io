@@ -1,42 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/06/01/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>CPP-STL</title>
-    <url>/2021/06/18/CPP-STL/</url>
-    <content><![CDATA[<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p><a href="https://blog.csdn.net/wkq0825/article/details/82255984">基本语法</a></p>
-<p><a href="https://www.cnblogs.com/tyty-Somnuspoppy/p/9361821.html">双层vector</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>一些语法问题</title>
     <url>/2021/06/14/%E4%B8%80%E4%BA%9B%E8%AF%AD%E6%B3%95%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>指针</title>
-    <url>/2021/05/31/%E6%8C%87%E9%92%88/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>动态规划</title>
+    <title></title>
     <url>/2021/06/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
     <content><![CDATA[<h3 id="数塔问题"><a href="#数塔问题" class="headerlink" title="数塔问题"></a><center>数塔问题</center></h3><p>当前的位置一定要走，从左OR从右</p>
 <h3 id="最长不下降子序列LIS"><a href="#最长不下降子序列LIS" class="headerlink" title="最长不下降子序列LIS"></a><center>最长不下降子序列LIS</center></h3><p>当前这个数一定要选，接着第一个OR第二个…当前的前一个数构成</p>
@@ -85,6 +55,36 @@
       </categories>
       <tags>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>排序</title>
+    <url>/2021/05/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<img src="https://i.loli.net/2021/07/28/9j2c8MsQCd7GhqW.png" alt="image.png" style="zoom:80%;" />
+
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><img src="https://i.loli.net/2021/07/28/58muPeCEJsRXvao.gif" alt="v2-62b35f38b9806cb2e50c7e4ee0ec3386_720w.gif"></p>
+<h3 id="选择排序法"><a href="#选择排序法" class="headerlink" title="选择排序法"></a>选择排序法</h3><p><img src="https://i.loli.net/2021/07/28/rxCE7jPqwzkJsvi.gif" alt="v2-c5e176ffc200c8f4f137e732fe860b60_720w.gif"></p>
+<h3 id="插入排序法"><a href="#插入排序法" class="headerlink" title="插入排序法"></a>插入排序法</h3><p><img src="https://i.loli.net/2021/07/28/9k8UFYowPH4Q2jD.gif" alt="v2-38d6f9c006e3fdb24ffd82a58c39ca92_720w.gif"></p>
+<h3 id="希尔排序法"><a href="#希尔排序法" class="headerlink" title="希尔排序法"></a>希尔排序法</h3><p><img src="https://i.loli.net/2021/07/28/avz8JiowZNMb6Ck.gif" alt="v2-924c253a0ce18b65eb5d590699c8773b_720w.gif"></p>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p><img src="https://i.loli.net/2021/07/28/OgrIWpRxiEhLzP2.gif" alt="v2-ed06651ca489ff4454e9889ca0d753db_720w.gif"></p>
+<h3 id="快速排序法"><a href="#快速排序法" class="headerlink" title="快速排序法"></a>快速排序法</h3><p><img src="https://i.loli.net/2021/07/28/OgrIWpRxiEhLzP2.gif" alt="v2-ed06651ca489ff4454e9889ca0d753db_720w.gif"></p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p><img src="https://i.loli.net/2021/07/28/vS56eJ8OxuBEwhN.gif" alt="v2-c892078dcb61230c6233fc5de4b4aebc_720w.gif"></p>
+<h3 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h3><p><img src="https://i.loli.net/2021/07/28/HE2DU8sf5Z1WOLg.gif" alt="v2-86055f604a687cc18e781160bcc8b781_720w.gif"></p>
+<h3 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h3><p><img src="https://i.loli.net/2021/07/28/liCLHKy2Tgoc8aG.gif" alt="v2-ab04919ee2dbadd84ad065760b8eb1c9_720w.gif"></p>
+<h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3><img src="https://i.loli.net/2021/07/28/gcZVTyI7Uu2w35x.gif" alt="v2-126c359bd98e64c79a2a1db2e829e57b_720w.gif" style="zoom:50%;" />
+
+]]></content>
+  </entry>
+  <entry>
+    <title>排序算法</title>
+    <url>/2021/05/31/%E6%8C%87%E9%92%88/</url>
+    <content><![CDATA[<p><img src="https://i.loli.net/2021/07/23/Xr57GcSsR9C6T28.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -166,5 +166,30 @@
         <tag>动态规划</tag>
         <tag>背包问题</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>CPP-STL</title>
+    <url>/2021/06/18/CPP-STL/</url>
+    <content><![CDATA[<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p><a href="https://blog.csdn.net/wkq0825/article/details/82255984">基本语法</a></p>
+<p><a href="https://www.cnblogs.com/tyty-Somnuspoppy/p/9361821.html">双层vector</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/06/01/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
 </search>
