@@ -8,7 +8,7 @@
 ]]></content>
   </entry>
   <entry>
-    <title>WordEmbedding1:BagofWords</title>
+    <title>词嵌入1:BagofWords</title>
     <url>/2021/10/24/WordEmbedding1:BagofWords/</url>
     <content><![CDATA[<ul>
 <li><em><strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong></em></li>
@@ -83,6 +83,19 @@
   </entry>
   <entry>
     <title></title>
+    <url>/2021/10/24/WordEmbedding3:Fixed%20representation%20based%20on%20word%20vector/</url>
+    <content><![CDATA[<h1 id="基于词向量的固定表征"><a href="#基于词向量的固定表征" class="headerlink" title="基于词向量的固定表征"></a>基于词向量的固定表征</h1><h2 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h2>]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>词向量</tag>
+        <tag>GloVe</tag>
+        <tag>Word2Vector</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
     <url>/2021/10/24/WordEmbedding2:ThemeModel/</url>
     <content><![CDATA[<ul>
 <li><strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong></li>
@@ -136,19 +149,6 @@
         <tag>SVD</tag>
         <tag>pLSA</tag>
         <tag>LDA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2021/10/24/WordEmbedding3:Fixed%20representation%20based%20on%20word%20vector/</url>
-    <content><![CDATA[<h1 id="基于词向量的固定表征"><a href="#基于词向量的固定表征" class="headerlink" title="基于词向量的固定表征"></a>基于词向量的固定表征</h1><h2 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h2>]]></content>
-      <categories>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>词向量</tag>
-        <tag>GloVe</tag>
-        <tag>Word2Vector</tag>
       </tags>
   </entry>
   <entry>
@@ -222,66 +222,15 @@
       </tags>
   </entry>
   <entry>
-    <title>排序</title>
-    <url>/2021/05/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<img src="https://i.loli.net/2021/07/28/9j2c8MsQCd7GhqW.png" alt="image.png" style="zoom:80%;" />
-
-<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p><img src="https://i.loli.net/2021/07/28/58muPeCEJsRXvao.gif" alt="v2-62b35f38b9806cb2e50c7e4ee0ec3386_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(j=n<span class="number">-1</span>;j&gt;i;j--)&#123;</span><br><span class="line">      <span class="keyword">if</span>(A[j<span class="number">-1</span>]&gt;A[j])&#123;</span><br><span class="line">        <span class="built_in">swap</span>(A[j<span class="number">-1</span>],A[j]);</span><br><span class="line">        flag=<span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag==<span class="literal">false</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="选择排序法"><a href="#选择排序法" class="headerlink" title="选择排序法"></a>选择排序法</h2><p><img src="https://i.loli.net/2021/07/28/rxCE7jPqwzkJsvi.gif" alt="v2-c5e176ffc200c8f4f137e732fe860b60_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    min=i;</span><br><span class="line">    <span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;n;j++)</span><br><span class="line">      <span class="keyword">if</span>(A[j]&lt;A[min]) min=j;</span><br><span class="line">    <span class="keyword">if</span>(min!=i) </span><br><span class="line">      <span class="built_in">swap</span>(A[i],A[min]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="插入排序法"><a href="#插入排序法" class="headerlink" title="插入排序法"></a>插入排序法</h2><p><img src="https://i.loli.net/2021/07/28/9k8UFYowPH4Q2jD.gif" alt="v2-38d6f9c006e3fdb24ffd82a58c39ca92_720w.gif"></p>
-<h3 id="直接插入法"><a href="#直接插入法" class="headerlink" title="直接插入法"></a>直接插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;	</span><br><span class="line">  <span class="keyword">int</span> i,j;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;A[<span class="number">0</span>]&lt;A[j];--j)&#123;</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    &#125;</span><br><span class="line">    A[j+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="折半插入法"><a href="#折半插入法" class="headerlink" title="折半插入法"></a>折半插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i,j,low,high,mid;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    low=<span class="number">1</span>;high=i<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;=high)&#123;</span><br><span class="line">      mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">      <span class="keyword">if</span>(A[mid]&gt;A[<span class="number">0</span>]) high=mid<span class="number">-1</span>;</span><br><span class="line">      <span class="keyword">else</span> low=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;j&gt;=high+<span class="number">1</span>;--j)</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    A[high+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="希尔排序法-缩小增量排序"><a href="#希尔排序法-缩小增量排序" class="headerlink" title="希尔排序法/缩小增量排序"></a>希尔排序法/缩小增量排序</h2><p><img src="https://i.loli.net/2021/07/28/avz8JiowZNMb6Ck.gif" alt="v2-924c253a0ce18b65eb5d590699c8773b_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShellSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(dk=n/<span class="number">2</span>;dk&gt;=<span class="number">1</span>;dk/=<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span>(i=dk+<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">      <span class="keyword">if</span>(A[i]&lt;A[i-dk])&#123;</span><br><span class="line">        A[<span class="number">0</span>]=A[i];</span><br><span class="line">        <span class="keyword">for</span>(j=i-dk;j&gt;<span class="number">0</span>&amp;&amp;A[<span class="number">0</span>]&lt;A[j];j-=dk)</span><br><span class="line">          A[j+dk]=A[j];</span><br><span class="line">        A[j+dk]=A[<span class="number">0</span>];</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><img src="https://i.loli.net/2021/07/28/OgrIWpRxiEhLzP2.gif" alt="v2-ed06651ca489ff4454e9889ca0d753db_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ElemType *B=(ElemType *)<span class="built_in">malloc</span>((n+<span class="number">1</span>)*<span class="built_in"><span class="keyword">sizeof</span></span>(ElemType));</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Merge</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> mid,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> k=low;k&lt;=high;k++)</span><br><span class="line">    B[k]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=low,j=mid+<span class="number">1</span>,k=i;i&lt;=mid&amp;&amp;j&lt;=high;k++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(B[i]&lt;=B[j])</span><br><span class="line">      A[k]=B[i++];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      A[k]=B[j++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;=mid) A[k++]=B[i++];</span><br><span class="line">  <span class="keyword">while</span>(j&lt;=high) A[k++]=B[j++];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,low,mid);</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,mid+<span class="number">1.</span>high);</span><br><span class="line">    <span class="built_in">Merge</span>(A,low,mid,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="快速排序法"><a href="#快速排序法" class="headerlink" title="快速排序法"></a>快速排序法</h2><p><img src="https://i.loli.net/2021/07/28/EiQ9IC1hTcsSdOX.gif" alt="v2-e30a1dcb54af5e222243d8053d3a5a0d_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> pivotpos=<span class="built_in">Partition</span>(A,low,high);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,low,pivotpos<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,pivot+<span class="number">1</span>,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  ElemType pivot=A[low];</span><br><span class="line">  <span class="keyword">while</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[high]&gt;=pivot) --high;</span><br><span class="line">    A[low]=A[high];</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[low]&lt;=pivot) ++low;</span><br><span class="line">    A[high]=A[low];</span><br><span class="line">  &#125;</span><br><span class="line">  A[low]=pivot;</span><br><span class="line">  <span class="keyword">return</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p><img src="https://i.loli.net/2021/07/28/vS56eJ8OxuBEwhN.gif" alt="v2-c892078dcb61230c6233fc5de4b4aebc_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=len/<span class="number">2</span>;i&gt;<span class="number">0</span>;i--)</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,i,len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[],<span class="keyword">int</span> k,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  A[<span class="number">0</span>]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>*k;i&lt;=len;i*=<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&lt;len&amp;&amp;A[i]&lt;A[i+<span class="number">1</span>])</span><br><span class="line">      i++;</span><br><span class="line">    <span class="keyword">if</span>(A[<span class="number">0</span>]&gt;A[i]) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      A[k]=A[i];</span><br><span class="line">      k=i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  A[k]=A[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeapSort</span><span class="params">(Elemtype A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="built_in">BuildMaxHeap</span>(A,len);</span><br><span class="line">  <span class="keyword">for</span>(i=len;i&gt;<span class="number">1</span>;i--)&#123;</span><br><span class="line">    <span class="built_in">Swap</span>(A[i],A[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,<span class="number">1</span>,i<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><p><img src="https://i.loli.net/2021/07/28/HE2DU8sf5Z1WOLg.gif" alt="v2-86055f604a687cc18e781160bcc8b781_720w.gif"></p>
-<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p><img src="https://i.loli.net/2021/07/28/liCLHKy2Tgoc8aG.gif" alt="v2-ab04919ee2dbadd84ad065760b8eb1c9_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> exp = <span class="number">1</span>;	<span class="comment">//exp表示排到第几位了</span></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">buf</span><span class="params">(n)</span></span>;</span><br><span class="line"><span class="keyword">int</span> maxVal = *<span class="built_in">max_element</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (maxVal &gt;= exp) &#123;</span><br><span class="line">  <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">cnt</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    cnt[digit]++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    cnt[i] += cnt[i - <span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;	<span class="comment">//注意是反着来恢复连接的</span></span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    buf[cnt[digit] - <span class="number">1</span>] = nums[i];</span><br><span class="line">    cnt[digit]--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">copy</span>(buf.<span class="built_in">begin</span>(), buf.<span class="built_in">end</span>(), nums.<span class="built_in">begin</span>());</span><br><span class="line">  exp *= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><img src="https://i.loli.net/2021/07/28/gcZVTyI7Uu2w35x.gif" alt="v2-126c359bd98e64c79a2a1db2e829e57b_720w.gif" style="zoom:100%;" />
-
-]]></content>
+    <title></title>
+    <url>/2021/10/25/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP(1)/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>李宏毅</tag>
+      </tags>
   </entry>
   <entry>
     <title>朴素贝叶斯</title>
@@ -311,17 +260,6 @@
       <tags>
         <tag>朴素贝叶斯</tag>
         <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2021/10/25/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP(1)/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>李宏毅</tag>
       </tags>
   </entry>
   <entry>
@@ -403,5 +341,67 @@
         <tag>动态规划</tag>
         <tag>背包问题</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>排序</title>
+    <url>/2021/05/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<img src="https://i.loli.net/2021/07/28/9j2c8MsQCd7GhqW.png" alt="image.png" style="zoom:80%;" />
+
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p><img src="https://i.loli.net/2021/07/28/58muPeCEJsRXvao.gif" alt="v2-62b35f38b9806cb2e50c7e4ee0ec3386_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(j=n<span class="number">-1</span>;j&gt;i;j--)&#123;</span><br><span class="line">      <span class="keyword">if</span>(A[j<span class="number">-1</span>]&gt;A[j])&#123;</span><br><span class="line">        <span class="built_in">swap</span>(A[j<span class="number">-1</span>],A[j]);</span><br><span class="line">        flag=<span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag==<span class="literal">false</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="选择排序法"><a href="#选择排序法" class="headerlink" title="选择排序法"></a>选择排序法</h2><p><img src="https://i.loli.net/2021/07/28/rxCE7jPqwzkJsvi.gif" alt="v2-c5e176ffc200c8f4f137e732fe860b60_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    min=i;</span><br><span class="line">    <span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;n;j++)</span><br><span class="line">      <span class="keyword">if</span>(A[j]&lt;A[min]) min=j;</span><br><span class="line">    <span class="keyword">if</span>(min!=i) </span><br><span class="line">      <span class="built_in">swap</span>(A[i],A[min]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="插入排序法"><a href="#插入排序法" class="headerlink" title="插入排序法"></a>插入排序法</h2><p><img src="https://i.loli.net/2021/07/28/9k8UFYowPH4Q2jD.gif" alt="v2-38d6f9c006e3fdb24ffd82a58c39ca92_720w.gif"></p>
+<h3 id="直接插入法"><a href="#直接插入法" class="headerlink" title="直接插入法"></a>直接插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;	</span><br><span class="line">  <span class="keyword">int</span> i,j;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;A[<span class="number">0</span>]&lt;A[j];--j)&#123;</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    &#125;</span><br><span class="line">    A[j+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="折半插入法"><a href="#折半插入法" class="headerlink" title="折半插入法"></a>折半插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i,j,low,high,mid;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    low=<span class="number">1</span>;high=i<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;=high)&#123;</span><br><span class="line">      mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">      <span class="keyword">if</span>(A[mid]&gt;A[<span class="number">0</span>]) high=mid<span class="number">-1</span>;</span><br><span class="line">      <span class="keyword">else</span> low=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;j&gt;=high+<span class="number">1</span>;--j)</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    A[high+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="希尔排序法-缩小增量排序"><a href="#希尔排序法-缩小增量排序" class="headerlink" title="希尔排序法/缩小增量排序"></a>希尔排序法/缩小增量排序</h2><p><img src="https://i.loli.net/2021/07/28/avz8JiowZNMb6Ck.gif" alt="v2-924c253a0ce18b65eb5d590699c8773b_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShellSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(dk=n/<span class="number">2</span>;dk&gt;=<span class="number">1</span>;dk/=<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span>(i=dk+<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">      <span class="keyword">if</span>(A[i]&lt;A[i-dk])&#123;</span><br><span class="line">        A[<span class="number">0</span>]=A[i];</span><br><span class="line">        <span class="keyword">for</span>(j=i-dk;j&gt;<span class="number">0</span>&amp;&amp;A[<span class="number">0</span>]&lt;A[j];j-=dk)</span><br><span class="line">          A[j+dk]=A[j];</span><br><span class="line">        A[j+dk]=A[<span class="number">0</span>];</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><img src="https://i.loli.net/2021/07/28/OgrIWpRxiEhLzP2.gif" alt="v2-ed06651ca489ff4454e9889ca0d753db_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ElemType *B=(ElemType *)<span class="built_in">malloc</span>((n+<span class="number">1</span>)*<span class="built_in"><span class="keyword">sizeof</span></span>(ElemType));</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Merge</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> mid,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> k=low;k&lt;=high;k++)</span><br><span class="line">    B[k]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=low,j=mid+<span class="number">1</span>,k=i;i&lt;=mid&amp;&amp;j&lt;=high;k++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(B[i]&lt;=B[j])</span><br><span class="line">      A[k]=B[i++];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      A[k]=B[j++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;=mid) A[k++]=B[i++];</span><br><span class="line">  <span class="keyword">while</span>(j&lt;=high) A[k++]=B[j++];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,low,mid);</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,mid+<span class="number">1.</span>high);</span><br><span class="line">    <span class="built_in">Merge</span>(A,low,mid,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="快速排序法"><a href="#快速排序法" class="headerlink" title="快速排序法"></a>快速排序法</h2><p><img src="https://i.loli.net/2021/07/28/EiQ9IC1hTcsSdOX.gif" alt="v2-e30a1dcb54af5e222243d8053d3a5a0d_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> pivotpos=<span class="built_in">Partition</span>(A,low,high);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,low,pivotpos<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,pivot+<span class="number">1</span>,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  ElemType pivot=A[low];</span><br><span class="line">  <span class="keyword">while</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[high]&gt;=pivot) --high;</span><br><span class="line">    A[low]=A[high];</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[low]&lt;=pivot) ++low;</span><br><span class="line">    A[high]=A[low];</span><br><span class="line">  &#125;</span><br><span class="line">  A[low]=pivot;</span><br><span class="line">  <span class="keyword">return</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p><img src="https://i.loli.net/2021/07/28/vS56eJ8OxuBEwhN.gif" alt="v2-c892078dcb61230c6233fc5de4b4aebc_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=len/<span class="number">2</span>;i&gt;<span class="number">0</span>;i--)</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,i,len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[],<span class="keyword">int</span> k,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  A[<span class="number">0</span>]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>*k;i&lt;=len;i*=<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&lt;len&amp;&amp;A[i]&lt;A[i+<span class="number">1</span>])</span><br><span class="line">      i++;</span><br><span class="line">    <span class="keyword">if</span>(A[<span class="number">0</span>]&gt;A[i]) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      A[k]=A[i];</span><br><span class="line">      k=i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  A[k]=A[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeapSort</span><span class="params">(Elemtype A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="built_in">BuildMaxHeap</span>(A,len);</span><br><span class="line">  <span class="keyword">for</span>(i=len;i&gt;<span class="number">1</span>;i--)&#123;</span><br><span class="line">    <span class="built_in">Swap</span>(A[i],A[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,<span class="number">1</span>,i<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><p><img src="https://i.loli.net/2021/07/28/HE2DU8sf5Z1WOLg.gif" alt="v2-86055f604a687cc18e781160bcc8b781_720w.gif"></p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p><img src="https://i.loli.net/2021/07/28/liCLHKy2Tgoc8aG.gif" alt="v2-ab04919ee2dbadd84ad065760b8eb1c9_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> exp = <span class="number">1</span>;	<span class="comment">//exp表示排到第几位了</span></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">buf</span><span class="params">(n)</span></span>;</span><br><span class="line"><span class="keyword">int</span> maxVal = *<span class="built_in">max_element</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (maxVal &gt;= exp) &#123;</span><br><span class="line">  <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">cnt</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    cnt[digit]++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    cnt[i] += cnt[i - <span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;	<span class="comment">//注意是反着来恢复连接的</span></span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    buf[cnt[digit] - <span class="number">1</span>] = nums[i];</span><br><span class="line">    cnt[digit]--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">copy</span>(buf.<span class="built_in">begin</span>(), buf.<span class="built_in">end</span>(), nums.<span class="built_in">begin</span>());</span><br><span class="line">  exp *= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><img src="https://i.loli.net/2021/07/28/gcZVTyI7Uu2w35x.gif" alt="v2-126c359bd98e64c79a2a1db2e829e57b_720w.gif" style="zoom:100%;" />
+
+]]></content>
   </entry>
 </search>
