@@ -11,13 +11,13 @@
     <title>WordEmbedding1:BagofWords</title>
     <url>/2021/10/24/WordEmbedding1:BagofWords/</url>
     <content><![CDATA[<ul>
-<li>==<strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong>==</li>
+<li><em><strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong></em></li>
 <li><strong>主题模型：LSA（SVD）、pLSA、LDA；</strong></li>
 <li><strong>基于词向量的固定表征：word2vec、fastText、glove</strong></li>
 <li><strong>基于词向量的动态表征：elmo、GPT、bert</strong></li>
 </ul>
 <h1 id="Bag-of-words"><a href="#Bag-of-words" class="headerlink" title="Bag-of-words"></a>Bag-of-words</h1><h2 id="TF-IFD算法"><a href="#TF-IFD算法" class="headerlink" title="TF-IFD算法"></a>TF-IFD算法</h2><p>TF-IDF（term frequency–inverse document frequency，词频-逆向文件频率）是一种用于信息检索（information retrieval）与文本挖掘（text mining）的常用加权技术。</p>
-<p>   TF-IDF是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要性随着它在**==文件==<strong>中出现的次数成正比增加，但同时会随着它在</strong>==语料库==**中出现的频率成反比下降。</p>
+<p>   TF-IDF是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要性随着它在<em><strong>文件</strong></em>中出现的次数成正比增加，但同时会随着它在<em><strong>语料库</strong></em>中出现的频率成反比下降。</p>
 <p>   TF-IDF的主要思想是：如果某个单词在一篇文章中出现的频率TF高，并且在其他文章中很少出现，则认为此词或者短语具有很好的类别区分能力，适合用来分类。</p>
 <p>TF词频 公式：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq88r14w2j605l0203yc02.jpg" alt="img"></p>
 <p>即：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq89qvhplj609m01wt8p02.jpg" alt="img"></p>
@@ -53,14 +53,14 @@
 
 <p>考虑到不同词对可能有不同的共现（co-occurrence），TextRank将共现作为无向图边的权值。那么，TextRank的迭代计算公式如下：<img src="https://pic2.zhimg.com/80/v2-04b2c330a7f471e8b93f78963e6c1619_1440w.jpg" alt="img"></p>
 <p>d为阻尼系数；$w_{ij}$为权重，用来表示两个节点间边连接的不同重要程度。</p>
-<p>==最后求得各节点权重。==</p>
+<p><em>最后求得各节点权重。</em></p>
 <h3 id="TextRank用户关键词提取"><a href="#TextRank用户关键词提取" class="headerlink" title="TextRank用户关键词提取"></a>TextRank用户关键词提取</h3><p>1)把给定的文本T按照完整句子进行分割，即</p>
 <p><img src="https://pic2.zhimg.com/80/v2-8c209ef93e503864960a934bc6a5b389_1440w.jpg" alt="img"></p>
 <p>2)对于每个句子Si属于T，进行分词和词性标注处理，并过滤掉停用词，只保留指定词性的单词，如名词、动词、形容词，即</p>
 <p><img src="https://pic3.zhimg.com/80/v2-d9ab45963e0e227ebc98e871802fa31a_1440w.jpg" alt="img"></p>
 <p>，其中 ti,j 是保留后的候选关键词。</p>
 <p>　　3)构建候选关键词图G = (V,E)，其中V为节点集，由（2）生成的候选关键词组成，然后采用共现关系（co-occurrence）构造任两点之间的边，两个节点之间存在边仅当它们对应的词汇在长度为K的窗口中共现，K表示窗口大小，即最多共现K个单词。</p>
-<p>　　4)根据上面公式，迭代传播==各节点的权重==，直至收敛。</p>
+<p>　　4)根据上面公式，迭代传播<em>各节点的权重</em>，直至收敛。</p>
 <p>　　5)对节点权重进行倒序排序，从而得到最重要的T个单词，作为候选关键词。</p>
 <p>　　6)由5得到最重要的T个单词，在原始文本中进行标记，若形成相邻词组，则组合成多词关键词。</p>
 <p><strong>补充：提取关键词短语</strong>：提取关键词短语的方法基于关键词提取，可以简单认为：如果提取出的若干关键词在文本中相邻，那么构成一个被提取的关键短语。</p>
@@ -83,10 +83,10 @@
   </entry>
   <entry>
     <title></title>
-    <url>/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/</url>
+    <url>/2021/10/24/WordEmbedding2:ThemeModel/</url>
     <content><![CDATA[<ul>
 <li><strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong></li>
-<li>==<strong>主题模型：LSA（SVD）、pLSA、LDA；</strong>==</li>
+<li><em><strong>主题模型：LSA（SVD）、pLSA、LDA；</strong></em></li>
 <li><strong>基于词向量的固定表征：word2vec、fastText、glove</strong></li>
 <li><strong>基于词向量的动态表征：elmo、GPT、bert</strong></li>
 </ul>
@@ -118,7 +118,7 @@
 
 <p>我们通过矩阵的分解对文本数据进行压缩，压缩量很可观，尤其是原始的矩阵的维度很高时压缩的更可观，因为k通常要远远小于n。</p>
 <p>如上图等号左边的矩阵其实就是我们的文本的词向量组成的，我们知道一篇文章的词是很多的，而且还是稀疏的，如果一旦文章数也很多,那么整个矩阵的元素会很大很大，但是通过矩阵分解就会减少很多。上图中的每一列都代表一个文本的词向量，里面的值是词向量的权值，那么我们分解后的矩阵分别代表什么呢？其中k就是隐分类或者说是隐特征，如果多个词在同一列出现就说明这几个词是相近的，在最右边的矩阵是什么意思呢？可以理解为经过压缩后的文本特征，每个文本都有k个特征，然后对比一下，以此来判断是否相似。</p>
-<p>还有一种用法就是我先通过矩阵分解，然后在组合成nxm的矩阵，这个新组合的矩阵和原始矩阵很像，但是肯定不一样，因为我们中间在特征值时略去了部分特征值，怎么理解这一步呢？大家可以理解为我们是==去除噪声==，留下的才是主要特征，和PCA技术差不多。但是这个方法就没有缺点吗？有的，下面我们来看看：</p>
+<p>还有一种用法就是我先通过矩阵分解，然后在组合成nxm的矩阵，这个新组合的矩阵和原始矩阵很像，但是肯定不一样，因为我们中间在特征值时略去了部分特征值，怎么理解这一步呢？大家可以理解为我们是<em>去除噪声</em>，留下的才是主要特征，和PCA技术差不多。但是这个方法就没有缺点吗？有的，下面我们来看看：</p>
 <p>缺点是SVD的分解的计算量太大，计算复杂度高，当矩阵达到1000维以上时计算已经非常缓慢，但文本分析一般都会形成非常大型的“文档-词”矩阵，从而难以实现，甚至存储都很困难。因此需要引入新的求解SVD的方法，这时一种新型的求解思路就出来了，下面还以推荐系统的电影分类为例进行讲解：</p>
 <img src="https://img-blog.csdnimg.cn/2018121910050073.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom:67%;" />
 
@@ -140,15 +140,34 @@
   </entry>
   <entry>
     <title></title>
-    <url>/2021/10/24/WordEmbedding3:%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%90%91%E9%87%8F%E7%9A%84%E5%9B%BA%E5%AE%9A%E8%A1%A8%E5%BE%81/</url>
+    <url>/2021/10/24/WordEmbedding3:Fixed%20representation%20based%20on%20word%20vector/</url>
     <content><![CDATA[<h1 id="基于词向量的固定表征"><a href="#基于词向量的固定表征" class="headerlink" title="基于词向量的固定表征"></a>基于词向量的固定表征</h1><h2 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h2>]]></content>
       <categories>
         <category>NLP</category>
       </categories>
       <tags>
         <tag>词向量</tag>
-        <tag>GloVe，Word2Vector</tag>
+        <tag>GloVe</tag>
+        <tag>Word2Vector</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/06/01/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>动态规划</title>
@@ -200,54 +219,6 @@
       </categories>
       <tags>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2021/06/01/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>朴素贝叶斯</title>
-    <url>/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</url>
-    <content><![CDATA[<h1 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h1><p>在所有的机器学习分类算法中，朴素贝叶斯和其他绝大多数的分类算法都不同。对于大多数的分类算法，比如决策树,KNN,逻辑回归，支持向量机等，他们都是判别方法，也就是直接学习出特征输出Y和特征X之间的关系，要么是决策函数𝑌=𝑓(𝑋)Y=f(X),要么是条件分布𝑃(𝑌|𝑋)P(Y|X)。但是朴素贝叶斯却是==生成方法==，也就是直接找出特征输出Y和特征X的联合分布𝑃(𝑋,𝑌)P(X,Y),然后用𝑃(𝑌|𝑋)=𝑃(𝑋,𝑌)/𝑃(𝑋)P(Y|X)=P(X,Y)/P(X)得出。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>贝叶斯公式是**==“执果索因”==**：发生了结果，那么哪个原因可能性大？</p>
-<img src="https://pic2.zhimg.com/80/v2-5ea21d9dcaeb14a5a163324b271e05a9_1440w.jpg" alt="img" style="zoom: 50%;" />
-
-<p>举个简单的例子：村子有且仅有两个小偷，小A和小B，根据统计A偷东西的可能性是0.2,B偷东西的可能性是0.8。如果A去偷，偷成功的概率是0.8， 如果B去偷，偷成功的概率是0.3。如果村子丢了一件东西，A和B谁是嫌疑犯的可能性更大？</p>
-<p>H={丢东西}</p>
-<p>A = {A去偷东西}</p>
-<p>B = {B去偷东西}</p>
-<p>P(A) + P(B) = 1</p>
-<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzcij90j611c0n4jut02.jpg" alt="image-20211024155658056" style="zoom:50%;" />
-
-
-
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzd1ys1j60pk040q3602.jpg" alt="image-20211024163655561" style="zoom:50%;" />，然后假设各个维度的x相互独立，这样方便计算。</p>
-<p>现在发生了$x^{test}$，是那种$C^k$种类产生的概率比较大？先验+数据（似然），求后验概率，过程如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzdu5coj615y0j60v002.jpg" alt="image-20211024163838725"></p>
-<p>为了计算还会假设离散的样本符合伯努利分布，连续值符合正态分布。</p>
-<p>原文：<a href="https://www.cnblogs.com/pinard/p/6069267.html">https://www.cnblogs.com/pinard/p/6069267.html</a></p>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>朴素贝叶斯</tag>
-        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
@@ -311,6 +282,47 @@
 <h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><img src="https://i.loli.net/2021/07/28/gcZVTyI7Uu2w35x.gif" alt="v2-126c359bd98e64c79a2a1db2e829e57b_720w.gif" style="zoom:100%;" />
 
 ]]></content>
+  </entry>
+  <entry>
+    <title>朴素贝叶斯</title>
+    <url>/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</url>
+    <content><![CDATA[<h1 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h1><p>在所有的机器学习分类算法中，朴素贝叶斯和其他绝大多数的分类算法都不同。对于大多数的分类算法，比如决策树,KNN,逻辑回归，支持向量机等，他们都是判别方法，也就是直接学习出特征输出Y和特征X之间的关系，要么是决策函数𝑌=𝑓(𝑋)Y=f(X),要么是条件分布𝑃(𝑌|𝑋)P(Y|X)。但是朴素贝叶斯却是==生成方法==，也就是直接找出特征输出Y和特征X的联合分布𝑃(𝑋,𝑌)P(X,Y),然后用𝑃(𝑌|𝑋)=𝑃(𝑋,𝑌)/𝑃(𝑋)P(Y|X)=P(X,Y)/P(X)得出。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>贝叶斯公式是**==“执果索因”==**：发生了结果，那么哪个原因可能性大？</p>
+<img src="https://pic2.zhimg.com/80/v2-5ea21d9dcaeb14a5a163324b271e05a9_1440w.jpg" alt="img" style="zoom: 50%;" />
+
+<p>举个简单的例子：村子有且仅有两个小偷，小A和小B，根据统计A偷东西的可能性是0.2,B偷东西的可能性是0.8。如果A去偷，偷成功的概率是0.8， 如果B去偷，偷成功的概率是0.3。如果村子丢了一件东西，A和B谁是嫌疑犯的可能性更大？</p>
+<p>H={丢东西}</p>
+<p>A = {A去偷东西}</p>
+<p>B = {B去偷东西}</p>
+<p>P(A) + P(B) = 1</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzcij90j611c0n4jut02.jpg" alt="image-20211024155658056" style="zoom:50%;" />
+
+
+
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzd1ys1j60pk040q3602.jpg" alt="image-20211024163655561" style="zoom:50%;" />，然后假设各个维度的x相互独立，这样方便计算。</p>
+<p>现在发生了$x^{test}$，是那种$C^k$种类产生的概率比较大？先验+数据（似然），求后验概率，过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzdu5coj615y0j60v002.jpg" alt="image-20211024163838725"></p>
+<p>为了计算还会假设离散的样本符合伯努利分布，连续值符合正态分布。</p>
+<p>原文：<a href="https://www.cnblogs.com/pinard/p/6069267.html">https://www.cnblogs.com/pinard/p/6069267.html</a></p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>朴素贝叶斯</tag>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/10/25/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP(1)/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>李宏毅</tag>
+      </tags>
   </entry>
   <entry>
     <title>背包问题</title>
