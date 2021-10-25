@@ -1,22 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/06/01/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <title>CPP-STL</title>
+    <url>/2021/06/18/CPP-STL/</url>
+    <content><![CDATA[<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p><a href="https://blog.csdn.net/wkq0825/article/details/82255984">基本语法</a></p>
+<p><a href="https://www.cnblogs.com/tyty-Somnuspoppy/p/9361821.html">双层vector</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>WordEmbedding1:BagofWords</title>
+    <url>/2021/10/24/WordEmbedding1:BagofWords/</url>
+    <content><![CDATA[<ul>
+<li>==<strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong>==</li>
+<li><strong>主题模型：LSA（SVD）、pLSA、LDA；</strong></li>
+<li><strong>基于词向量的固定表征：word2vec、fastText、glove</strong></li>
+<li><strong>基于词向量的动态表征：elmo、GPT、bert</strong></li>
+</ul>
+<h1 id="Bag-of-words"><a href="#Bag-of-words" class="headerlink" title="Bag-of-words"></a>Bag-of-words</h1><h2 id="TF-IFD算法"><a href="#TF-IFD算法" class="headerlink" title="TF-IFD算法"></a>TF-IFD算法</h2><p>TF-IDF（term frequency–inverse document frequency，词频-逆向文件频率）是一种用于信息检索（information retrieval）与文本挖掘（text mining）的常用加权技术。</p>
+<p>   TF-IDF是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要性随着它在**==文件==<strong>中出现的次数成正比增加，但同时会随着它在</strong>==语料库==**中出现的频率成反比下降。</p>
+<p>   TF-IDF的主要思想是：如果某个单词在一篇文章中出现的频率TF高，并且在其他文章中很少出现，则认为此词或者短语具有很好的类别区分能力，适合用来分类。</p>
+<p>TF词频 公式：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq88r14w2j605l0203yc02.jpg" alt="img"></p>
+<p>即：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq89qvhplj609m01wt8p02.jpg" alt="img"></p>
+<p>IDF 逆向文件频率：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq8a9n46bj607w02a0sm02.jpg" alt="img"></p>
+<p>即：<img src="https://img-blog.csdn.net/20180807191126207?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzaWFsZWVfYmlyZA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>TF-IDF为：<img src="https://img-blog.csdn.net/201808071912424?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzaWFsZWVfYmlyZA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<ul>
+<li>优点：1. 可用某篇文章中出现次数多但在其他文章中出现次数少的词来作为该篇文章的特征词。2. 使罕见的单词更加突出并且有效地忽略了常用单词 3. 易于理解</li>
+<li>缺点：1. 因为是词袋模型，所以没有考虑词的位置信息，但词的位置是有一定含义的。2. 并不能反映单词的重要程度和特征词的分布情况。</li>
+</ul>
+<h2 id="TextRank"><a href="#TextRank" class="headerlink" title="TextRank"></a>TextRank</h2><h3 id="PageRank算法"><a href="#PageRank算法" class="headerlink" title="PageRank算法"></a>PageRank算法</h3><ul>
+<li>如果一个网页被很多其他网页链接到的话说明这个网页比较重要，也就是PageRank值会相对较高</li>
+<li>如果一个PageRank值很高的网页链接到一个其他的网页，那么被链接到的网页的PageRank值会相应地因此而提高</li>
+</ul>
+<img src="https://raw.githubusercontent.com/evilKing/storage_image/master/page_rank1.png" alt="img" style="zoom:50%;" />
+
+<p>PageRank算法预先给每个网页一个 PR值（下面用 PR值指代 PageRank值），由于 PR值物理意义上为一个网页被访问概率，所以一般是1/N ，其中 N 为网页总数。另外，一般情况下，所有网页的 PR值的总和为 1。如果不为 1的话也不是不行，最后算出来的不同网页之间 PR值的大小关系仍然是正确的，只是不能直接地反映概率了。</p>
+<p><img src="https://raw.githubusercontent.com/evilKing/storage_image/master/page_rank.jpg" alt="img"></p>
+<p>互联网中的众多网页可以看作一个有向图。预先给定 PR值后，通过下面的算法不断迭代，直至达到平稳分布为止。这时 A 的 PR值就可以表示为 :<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8d903cj60de02ewee02.jpg" alt="image-20211024111841444" style="zoom:50%;" />然而图中除了 C 之外，B 和 D 都不止有一条出链，所以上面的计算式并不准确。想象一个用户现在浏览 B 网页，那么下一步他打开 A 网页还是 D网页在统计上应该是相同概率的。所以 A 的 PR值应该表述为 :<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8can5wj60fe03qt8n02.jpg" alt="image-20211024112044985" style="zoom:50%;" /></p>
+<p>互联网中不乏一些没有出链的网页，如图:</p>
+<p><img src="https://raw.githubusercontent.com/evilKing/storage_image/master/page_rank3.jpg" alt="img"></p>
+<p>图中的 C 网页没有出链，对其他网页没有 PR值的贡献，我们不喜欢这种自私的网页（其实是为了满足 Markov 链的收敛性），于是设定其对所有的网页（包括它自己）都有出链，则此图中A的PR值（设定C也连到了A）可表示为：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8g2hmmj60e604gwef02.jpg" alt="image-20211024112321973" style="zoom:50%;" />
+
+<p>然而我们再考虑一种情况：互联网中一个网页只有对自己的出链，或者几个网页的出链形成一个循环圈。那么在不断地迭代过程中，这一个或几个网页的PR值将只增不减，显然不合理。如下图中的 C 网页就是刚刚说的只有对自己的出链的网页：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8e4r2zj60hu0fc3yx02.jpg" alt="image-20211024112609155" style="zoom:50%;" />
+
+<p>为了解决这个问题，我们想象一个随机浏览网页的人，当他到达 C 网页后，显然不会傻傻地一直被 C 网页的小把戏困住。我们假定他有一个确定的概率会输入网址直接跳转到一个随机的网页，并且跳转到每个网页的概率是一样的。于是则此图中 A 的 PR值可表示为：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8f4rwvj60hy04wjrc02.jpg" alt="image-20211024112634051" style="zoom:50%;" />这里的α是阻尼系数，google系统选用0.85，表示用户愿意按照网页跳转指示浏览网页的概率。</p>
+<p>总结一下：<img src="https://pic1.zhimg.com/80/v2-0d6c3c27eeee373e89b02e57630df6e4_1440w.jpg" alt="img"></p>
+<h3 id="TextRank-1"><a href="#TextRank-1" class="headerlink" title="TextRank"></a>TextRank</h3><p>网页之间的链接关系可以用图表示，那么怎么把一个句子（可以看作词的序列）构建成图呢？TextRank将某一个词与其前面的N个词、以及后面的N个词均具有图相邻关系（类似于N-gram语法模型）。</p>
+<p>具体实现：设置一个长度为N的滑动窗口，所有在这个窗口之内的词都视作词结点的相邻结点；则TextRank构建的词图为无向图。下图给出了由一个文档构建的词图（去掉了停用词并按词性做了筛选）：</p>
+<img src="https://pic2.zhimg.com/80/v2-45e33818add08141d4deea618d1bd6c9_1440w.jpg" alt="img" style="zoom: 50%;" />
+
+<p>考虑到不同词对可能有不同的共现（co-occurrence），TextRank将共现作为无向图边的权值。那么，TextRank的迭代计算公式如下：<img src="https://pic2.zhimg.com/80/v2-04b2c330a7f471e8b93f78963e6c1619_1440w.jpg" alt="img"></p>
+<p>d为阻尼系数；$w_{ij}$为权重，用来表示两个节点间边连接的不同重要程度。</p>
+<p>==最后求得各节点权重。==</p>
+<h3 id="TextRank用户关键词提取"><a href="#TextRank用户关键词提取" class="headerlink" title="TextRank用户关键词提取"></a>TextRank用户关键词提取</h3><p>1)把给定的文本T按照完整句子进行分割，即</p>
+<p><img src="https://pic2.zhimg.com/80/v2-8c209ef93e503864960a934bc6a5b389_1440w.jpg" alt="img"></p>
+<p>2)对于每个句子Si属于T，进行分词和词性标注处理，并过滤掉停用词，只保留指定词性的单词，如名词、动词、形容词，即</p>
+<p><img src="https://pic3.zhimg.com/80/v2-d9ab45963e0e227ebc98e871802fa31a_1440w.jpg" alt="img"></p>
+<p>，其中 ti,j 是保留后的候选关键词。</p>
+<p>　　3)构建候选关键词图G = (V,E)，其中V为节点集，由（2）生成的候选关键词组成，然后采用共现关系（co-occurrence）构造任两点之间的边，两个节点之间存在边仅当它们对应的词汇在长度为K的窗口中共现，K表示窗口大小，即最多共现K个单词。</p>
+<p>　　4)根据上面公式，迭代传播==各节点的权重==，直至收敛。</p>
+<p>　　5)对节点权重进行倒序排序，从而得到最重要的T个单词，作为候选关键词。</p>
+<p>　　6)由5得到最重要的T个单词，在原始文本中进行标记，若形成相邻词组，则组合成多词关键词。</p>
+<p><strong>补充：提取关键词短语</strong>：提取关键词短语的方法基于关键词提取，可以简单认为：如果提取出的若干关键词在文本中相邻，那么构成一个被提取的关键短语。</p>
+<p><strong>停用词：</strong>是指在信息检索中，为节省存储空间和提高搜索效率，在处理自然语言数据（或文本）之前或之后会自动过滤掉某些字或词，这些字或词即被称为Stop Words（停用词）。这些停用词都是人工输入、非自动化生成的，生成后的停用词会形成一个停用词表。但是，并没有一个明确的停用词表能够适用于所有的工具。甚至有一些工具是明确地避免使用停用词来支持短语搜索的。</p>
+<h3 id="TextRank生成文章摘要"><a href="#TextRank生成文章摘要" class="headerlink" title="TextRank生成文章摘要"></a>TextRank生成文章摘要</h3><p>　　将文本中的每个句子分别看做一个节点，如果两个句子有相似性，那么认为这两个句子对应的节点之间存在一条无向有权边。考察句子相似度的方法是下面这个公式：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181104103726372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FpYW45OQ==,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p>公式中，Si,Sj分别表示两个句子词的个数总数，Wk表示句子中的词，那么分子部分的意思是同时出现在两个句子中的同一个词的个数，<u>分母是对句子中词的个数求对数之和。分母这样设计可以遏制较长的句子在相似度计算上的优势。</u></p>
+<p>我们可以根据以上相似度公式循环计算任意两个节点之间的相似度，根据阈值去掉两个节点之间相似度较低的边连接，构建出节点连接图，然后计算TextRank值，最后对所有TextRank值排序，选出TextRank值最高的几个节点对应的句子作为摘要。</p>
+<h2 id="Bag-of-Words"><a href="#Bag-of-Words" class="headerlink" title="Bag of Words"></a>Bag of Words</h2><p>​    Bag of words模型，也叫做“词袋”，在信息检索中，Bag of words model假定对于一个文本，忽略其词序和语法、句法，将其仅仅看做是一个词集合，或者说是词的一个组合，文本中每个词的出现都是独立的，不依赖于其他词是否出现，或者说当这篇文章的作者在任意一个位置选择一个词汇都不受前面句子的影响而独立选择的。</p>
+]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>词向量</tag>
+        <tag>TF-IDF</tag>
+        <tag>TextRank</tag>
+        <tag>PageRank</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<ul>
+<li><strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong></li>
+<li>==<strong>主题模型：LSA（SVD）、pLSA、LDA；</strong>==</li>
+<li><strong>基于词向量的固定表征：word2vec、fastText、glove</strong></li>
+<li><strong>基于词向量的动态表征：elmo、GPT、bert</strong></li>
+</ul>
+<h1 id="主题模型"><a href="#主题模型" class="headerlink" title="主题模型"></a>主题模型</h1><p>各种模型的优缺点：</p>
+<ul>
+<li>One-hot：维度灾难 and 语义鸿沟</li>
+<li>矩阵分解（LSA）：利用全局语料特征，但SVD求解计算复杂度大</li>
+<li>基于NNLM/RNNLM的词向量：词向量为副产物，存在效率不高等问题</li>
+<li>word2vec、fastText：优化效率高，但是基于局部语料</li>
+<li>glove：基于全局预料，结合了LSA和word2vec的优点</li>
+<li>elmo、GPT、bert：动态特征</li>
+</ul>
+<h2 id="LSA（隐语义分析）"><a href="#LSA（隐语义分析）" class="headerlink" title="LSA（隐语义分析）"></a>LSA（隐语义分析）</h2><h3 id="SVD（奇异值分解）"><a href="#SVD（奇异值分解）" class="headerlink" title="SVD（奇异值分解）"></a>SVD（奇异值分解）</h3><p>LSA(latent semantic analysis)潜层语义分析，也被称为LSI(latent semantic index)，是Scott Deerwester, Susan T. Dumais等人在1990年提出来的一种新的索引和检索算法。该算法和传统向量空间模型(vector space model)一样使用向量来表示词(word)和文档(documents)，vsm是通过向量间的关系(如夹角)来判断词及文档间的关系，而不同的 是，LSA将词和文档映射到潜在语义空间，从而去除了原始向量空间中的一些“噪音”，提高了信息检索的精确度。我们下面就先从推荐系统的角度简单的解释一下，什么是浅语意空间。</p>
+<p>这里简单的根据推荐系统来说，这里使用给用户推荐电影的例子来解释，首先我们会得到一个评分矩阵，这个矩阵呢它的行是item（主题），如果推荐的是电影的话，那么item就是电影名了，而列就是用户了即user，我们从不同的用户中就可以得到这样的评分矩阵，如下所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181219094042449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p>现在的问题是，1、这个评分矩阵很大。2、这个矩阵是稀疏，什么意思呢？假如这个矩阵是给电影评分的，那么我们不能得到所有用户给所有的电影评分，因此这个矩阵中会有很多的空缺值。因此推荐系统中会有这两个问题的存在，如何解决呢？这里使用的是SVD 进行解决，我们看看他是如何解决推荐系统的两个问题的，其实很简单，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/2018121910050073.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p>假如我们的评分矩阵是nxm的矩阵，其中m代表user，n代表item，我们可以通过两个矩阵的相乘的形式得到评分矩阵，写成上图等号右边的形式。</p>
+<p>上图我们可看到评分矩阵可以通过nxk的矩阵和kxm的矩阵相乘得到，这里的k是隐分类的意思，<u>这里的隐分类不是我们人为划分的，一般都是我们通过矩阵分解以后得到这个k，</u>然后通过两个矩阵的内容进行判断隐分类的含义。</p>
+<p>这里以电影评分矩阵进行比喻，一旦通过矩阵分解成上面的形式，我就可以得到电影评分的矩阵分解了，就会得到隐分类了，此时我们观察分解后的矩阵就会发现，隐分类代表的是某一类型电影，如上图等号右边的第一个矩阵即nxk矩阵，就是说对这n个电影给出概率或者打分来说明他是属于电影的哪一类如科幻、爱情、恐怖等等，此时的k就是代表电影的类型了也就是隐分类了，根据每部电影的行中不同的值来判断它属于那个电影类型的概率，这就是上图等号右边第一个矩阵的含义，那么等号右边的后面的那个矩阵代表什么呢？其实很类似的分析，每个用户代表着一列，那么每行代表在不同类型的电影，我们通过分析用户观看哪种类型的电影概率或者评分最高，以此来给用户推荐他喜欢的类型电影。</p>
+<p>由此我们可以发现在电影的评分中隐分类就代表着电影的类型，而分解后的两个矩阵对我们都很有用，这就是我们k的物理意义和分解后矩阵代表的含义，但是我们还没解释他是如何解决推荐系统的两个问题的，下面我们就来解释一下：假如我们分解后的矩阵的k值通常要比n和m小的多数值，如n=100万部电影，k=100种类型，m=100万人，我们来计算一下分解后的数据有多少个：nxk+kxm = 100万x100 + 100x100万 = 2亿个数据，需要2亿个存储单元，我们看看原始评分矩阵的大小：nxm= 100万x100万=10000亿，可想而知，存储量很大，因此矩阵分解可以起到降维、压缩数据的作用。因为数据压缩了其实就解决了稀疏性的问题，稍后大家会看到如何解决的，上面就是推荐系统的应用，那么在文本分类是如何使用的呢？</p>
+<h3 id="LSA用于文本分类"><a href="#LSA用于文本分类" class="headerlink" title="LSA用于文本分类"></a>LSA用于文本分类</h3><img src="https://img-blog.csdnimg.cn/20181219105441296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom:67%;" />
+
+<p>每篇文章我们都可以构造一个词向量，这样由多篇文章就可以构成一个矩阵，如上图的等号左边的图，这里的m就是文章数了，n就是每个词袋的元素数了，通过矩阵分解后就会得到像上图等号右边的第一个矩阵形式，和推荐系统类似，这里的k代表的就是隐分类，他的物理意义就是说在每个词向量（文本）的元素中概率或者评分相近的词，就是同义词和近义词了，那么第二个矩阵就相当于降维了，即我们关键的信息留下来，同义词和近义词我们按照左边的分解取一个概率最大的表示，如我们讨论两个文本是否相似时，我们知道评分矩阵的维度是很大，而且还是稀疏的，但是我们通过矩阵分解以后就会得到隐特征，即主要的信息都保存下来了，此时我们的矩阵就不在是稀疏了，这也就解释了为什么起到降维和解决稀疏矩阵的原理了。</p>
+<p>这里大家不应太纠结隐分类到底代表什么，我们不需要知道，只需要判断即可，这就是SVD用在文本分类中的原理，因为文本分类是最早使用SVD的，因此，推荐系统是借鉴了文本分类的应用才研究出推荐系统的，这里就不在过多讨论了，大家肯定想知道，这个矩阵分解到底是如何做呢？怎么得到这个k的值呢？如何确定呢？是人为确定还是自动生成呢？我们的主要精力就来看看SVD到底是如何分解的。答：奇异值矩阵分解。</p>
+<h2 id="PLSA（基于概率的隐语意分析）"><a href="#PLSA（基于概率的隐语意分析）" class="headerlink" title="PLSA（基于概率的隐语意分析）"></a>PLSA（基于概率的隐语意分析）</h2><img src="https://img-blog.csdnimg.cn/20181219105441296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom:80%;" />
+
+
+
+<p>我们通过矩阵的分解对文本数据进行压缩，压缩量很可观，尤其是原始的矩阵的维度很高时压缩的更可观，因为k通常要远远小于n。</p>
+<p>如上图等号左边的矩阵其实就是我们的文本的词向量组成的，我们知道一篇文章的词是很多的，而且还是稀疏的，如果一旦文章数也很多,那么整个矩阵的元素会很大很大，但是通过矩阵分解就会减少很多。上图中的每一列都代表一个文本的词向量，里面的值是词向量的权值，那么我们分解后的矩阵分别代表什么呢？其中k就是隐分类或者说是隐特征，如果多个词在同一列出现就说明这几个词是相近的，在最右边的矩阵是什么意思呢？可以理解为经过压缩后的文本特征，每个文本都有k个特征，然后对比一下，以此来判断是否相似。</p>
+<p>还有一种用法就是我先通过矩阵分解，然后在组合成nxm的矩阵，这个新组合的矩阵和原始矩阵很像，但是肯定不一样，因为我们中间在特征值时略去了部分特征值，怎么理解这一步呢？大家可以理解为我们是==去除噪声==，留下的才是主要特征，和PCA技术差不多。但是这个方法就没有缺点吗？有的，下面我们来看看：</p>
+<p>缺点是SVD的分解的计算量太大，计算复杂度高，当矩阵达到1000维以上时计算已经非常缓慢，但文本分析一般都会形成非常大型的“文档-词”矩阵，从而难以实现，甚至存储都很困难。因此需要引入新的求解SVD的方法，这时一种新型的求解思路就出来了，下面还以推荐系统的电影分类为例进行讲解：</p>
+<img src="https://img-blog.csdnimg.cn/2018121910050073.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom:67%;" />
+
+<p>按照我们上一节的内容就是当得到评分矩阵时，就可以直接对其进行分解，但是问题是当这个评分矩阵的维度很大时，SVD的计算量将很大，为了避免这么大的计算量，我们采用这样的做法，就是我把上图的等号右边的两个矩阵的元素全看做 变量，对，你没看错，全看做变量，那么我让他们相乘就会得到和原始评分矩阵维度一样的矩阵，那么这个时候我把原始矩阵已知的值和计算出来的矩阵相对应位置的值尽量相等，这样就建立了优化函数，然后使用优化算法使其误差达到最低，一旦我们合成的矩阵符合我们的要求，同时就可推测原始评分稀疏矩阵的值了，通过预测的值的大小就可以推荐给用户分值高的电影了，下面结合图来讲：</p>
+<img src="https://img-blog.csdnimg.cn/2018121919005668.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom: 67%;" />
+
+<p>首先我们构建两个矩阵维度为nxk和kxm的，如上图的中间部分，那么我把这两个矩阵的元素都看做变量，这时候把矩阵相乘得到合成评分矩阵B，如上图的右端，那么把合成的数据和原始的评分矩阵A对应的位置相比较如上图的A蓝色点，黄色点是缺少的（意思是用户没有看过该影片），使他们尽量的接近，怎么衡量呢？误差平方和函数呀，因此可以得到关于很多变量的误差函数L，此时我们使用优化算法进行优化，一旦达到我们的要求，那么说明我们的分解矩阵就确定了，此时使用这个 再去预测A矩阵的位置的黄色的点，这可以对评分矩阵的稀缺值进行填充，进而根据分值大小给用户推荐电影了，就是这个原理。这样就巧妙的避免了求解SVD了，一旦得到优化函数，我们就可以通过梯度下降得到我们的极值。</p>
+]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>词向量</tag>
+        <tag>LSA</tag>
+        <tag>SVD</tag>
+        <tag>pLSA</tag>
+        <tag>LDA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/10/24/WordEmbedding3:%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%90%91%E9%87%8F%E7%9A%84%E5%9B%BA%E5%AE%9A%E8%A1%A8%E5%BE%81/</url>
+    <content><![CDATA[<h1 id="基于词向量的固定表征"><a href="#基于词向量的固定表征" class="headerlink" title="基于词向量的固定表征"></a>基于词向量的固定表征</h1><h2 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h2>]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>词向量</tag>
+        <tag>GloVe，Word2Vector</tag>
+      </tags>
   </entry>
   <entry>
     <title>动态规划</title>
@@ -71,11 +203,52 @@
       </tags>
   </entry>
   <entry>
-    <title>CPP-STL</title>
-    <url>/2021/06/18/CPP-STL/</url>
-    <content><![CDATA[<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p><a href="https://blog.csdn.net/wkq0825/article/details/82255984">基本语法</a></p>
-<p><a href="https://www.cnblogs.com/tyty-Somnuspoppy/p/9361821.html">双层vector</a></p>
+    <title>Hello World</title>
+    <url>/2021/06/01/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>朴素贝叶斯</title>
+    <url>/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</url>
+    <content><![CDATA[<h1 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h1><p>在所有的机器学习分类算法中，朴素贝叶斯和其他绝大多数的分类算法都不同。对于大多数的分类算法，比如决策树,KNN,逻辑回归，支持向量机等，他们都是判别方法，也就是直接学习出特征输出Y和特征X之间的关系，要么是决策函数𝑌=𝑓(𝑋)Y=f(X),要么是条件分布𝑃(𝑌|𝑋)P(Y|X)。但是朴素贝叶斯却是==生成方法==，也就是直接找出特征输出Y和特征X的联合分布𝑃(𝑋,𝑌)P(X,Y),然后用𝑃(𝑌|𝑋)=𝑃(𝑋,𝑌)/𝑃(𝑋)P(Y|X)=P(X,Y)/P(X)得出。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>贝叶斯公式是**==“执果索因”==**：发生了结果，那么哪个原因可能性大？</p>
+<img src="https://pic2.zhimg.com/80/v2-5ea21d9dcaeb14a5a163324b271e05a9_1440w.jpg" alt="img" style="zoom: 50%;" />
+
+<p>举个简单的例子：村子有且仅有两个小偷，小A和小B，根据统计A偷东西的可能性是0.2,B偷东西的可能性是0.8。如果A去偷，偷成功的概率是0.8， 如果B去偷，偷成功的概率是0.3。如果村子丢了一件东西，A和B谁是嫌疑犯的可能性更大？</p>
+<p>H={丢东西}</p>
+<p>A = {A去偷东西}</p>
+<p>B = {B去偷东西}</p>
+<p>P(A) + P(B) = 1</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzcij90j611c0n4jut02.jpg" alt="image-20211024155658056" style="zoom:50%;" />
+
+
+
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzd1ys1j60pk040q3602.jpg" alt="image-20211024163655561" style="zoom:50%;" />，然后假设各个维度的x相互独立，这样方便计算。</p>
+<p>现在发生了$x^{test}$，是那种$C^k$种类产生的概率比较大？先验+数据（似然），求后验概率，过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzdu5coj615y0j60v002.jpg" alt="image-20211024163838725"></p>
+<p>为了计算还会假设离散的样本符合伯努利分布，连续值符合正态分布。</p>
+<p>原文：<a href="https://www.cnblogs.com/pinard/p/6069267.html">https://www.cnblogs.com/pinard/p/6069267.html</a></p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>朴素贝叶斯</tag>
+        <tag>数学</tag>
+      </tags>
   </entry>
   <entry>
     <title>排序</title>
@@ -217,17 +390,6 @@
       <tags>
         <tag>动态规划</tag>
         <tag>背包问题</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>词向量全解</title>
-    <url>/2021/06/18/%E8%AF%8D%E5%90%91%E9%87%8F%E5%85%A8%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>词向量</tag>
       </tags>
   </entry>
 </search>

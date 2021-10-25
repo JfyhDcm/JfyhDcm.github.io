@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JfyhDcm's Blog | JfyhDcm's Blog</title><meta name="keywords" content="词向量,LSA,SVD,pLSA,LDA"><meta name="author" content="JfyhDcm"><meta name="copyright" content="JfyhDcm"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="基于one-hot、tf-idf、textrank等的bag-of-words； &#x3D;&#x3D;主题模型：LSA（SVD）、pLSA、LDA；&#x3D;&#x3D; 基于词向量的固定表征：word2vec、fastText、glove 基于词向量的动态表征：elmo、GPT、bert  主题模型各种模型的优缺点：  One-hot：维度灾难 and 语义鸿沟 矩阵分解（LSA）：利用全局语料特征，但SVD求解计算复杂度大">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JfyhDcm&#39;s Blog">
+<meta property="og:url" content="https://jfyhdcm.github.io/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="JfyhDcm&#39;s Blog">
+<meta property="og:description" content="基于one-hot、tf-idf、textrank等的bag-of-words； &#x3D;&#x3D;主题模型：LSA（SVD）、pLSA、LDA；&#x3D;&#x3D; 基于词向量的固定表征：word2vec、fastText、glove 基于词向量的动态表征：elmo、GPT、bert  主题模型各种模型的优缺点：  One-hot：维度灾难 and 语义鸿沟 矩阵分解（LSA）：利用全局语料特征，但SVD求解计算复杂度大">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg">
+<meta property="article:published_time" content="2021-10-24T07:23:53.863Z">
+<meta property="article:modified_time" content="2021-10-24T09:23:28.971Z">
+<meta property="article:author" content="JfyhDcm">
+<meta property="article:tag" content="词向量">
+<meta property="article:tag" content="LSA">
+<meta property="article:tag" content="SVD">
+<meta property="article:tag" content="pLSA">
+<meta property="article:tag" content="LDA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg"><link rel="shortcut icon" href="/img/dragon.png"><link rel="canonical" href="https://jfyhdcm.github.io/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JfyhDcm\'s Blog',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-10-24 17:23:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/ava.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">JfyhDcm's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">No title</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-10-24T07:23:53.863Z" title="Created 2021-10-24 15:23:53">2021-10-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-10-24T09:23:28.971Z" title="Updated 2021-10-24 17:23:28">2021-10-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/NLP/">NLP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+<li><strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong></li>
+<li>==<strong>主题模型：LSA（SVD）、pLSA、LDA；</strong>==</li>
+<li><strong>基于词向量的固定表征：word2vec、fastText、glove</strong></li>
+<li><strong>基于词向量的动态表征：elmo、GPT、bert</strong></li>
+</ul>
+<h1 id="主题模型"><a href="#主题模型" class="headerlink" title="主题模型"></a>主题模型</h1><p>各种模型的优缺点：</p>
+<ul>
+<li>One-hot：维度灾难 and 语义鸿沟</li>
+<li>矩阵分解（LSA）：利用全局语料特征，但SVD求解计算复杂度大</li>
+<li>基于NNLM/RNNLM的词向量：词向量为副产物，存在效率不高等问题</li>
+<li>word2vec、fastText：优化效率高，但是基于局部语料</li>
+<li>glove：基于全局预料，结合了LSA和word2vec的优点</li>
+<li>elmo、GPT、bert：动态特征</li>
+</ul>
+<h2 id="LSA（隐语义分析）"><a href="#LSA（隐语义分析）" class="headerlink" title="LSA（隐语义分析）"></a>LSA（隐语义分析）</h2><h3 id="SVD（奇异值分解）"><a href="#SVD（奇异值分解）" class="headerlink" title="SVD（奇异值分解）"></a>SVD（奇异值分解）</h3><p>LSA(latent semantic analysis)潜层语义分析，也被称为LSI(latent semantic index)，是Scott Deerwester, Susan T. Dumais等人在1990年提出来的一种新的索引和检索算法。该算法和传统向量空间模型(vector space model)一样使用向量来表示词(word)和文档(documents)，vsm是通过向量间的关系(如夹角)来判断词及文档间的关系，而不同的 是，LSA将词和文档映射到潜在语义空间，从而去除了原始向量空间中的一些“噪音”，提高了信息检索的精确度。我们下面就先从推荐系统的角度简单的解释一下，什么是浅语意空间。</p>
+<p>这里简单的根据推荐系统来说，这里使用给用户推荐电影的例子来解释，首先我们会得到一个评分矩阵，这个矩阵呢它的行是item（主题），如果推荐的是电影的话，那么item就是电影名了，而列就是用户了即user，我们从不同的用户中就可以得到这样的评分矩阵，如下所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181219094042449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p>现在的问题是，1、这个评分矩阵很大。2、这个矩阵是稀疏，什么意思呢？假如这个矩阵是给电影评分的，那么我们不能得到所有用户给所有的电影评分，因此这个矩阵中会有很多的空缺值。因此推荐系统中会有这两个问题的存在，如何解决呢？这里使用的是SVD 进行解决，我们看看他是如何解决推荐系统的两个问题的，其实很简单，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/2018121910050073.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p>假如我们的评分矩阵是nxm的矩阵，其中m代表user，n代表item，我们可以通过两个矩阵的相乘的形式得到评分矩阵，写成上图等号右边的形式。</p>
+<p>上图我们可看到评分矩阵可以通过nxk的矩阵和kxm的矩阵相乘得到，这里的k是隐分类的意思，<u>这里的隐分类不是我们人为划分的，一般都是我们通过矩阵分解以后得到这个k，</u>然后通过两个矩阵的内容进行判断隐分类的含义。</p>
+<p>这里以电影评分矩阵进行比喻，一旦通过矩阵分解成上面的形式，我就可以得到电影评分的矩阵分解了，就会得到隐分类了，此时我们观察分解后的矩阵就会发现，隐分类代表的是某一类型电影，如上图等号右边的第一个矩阵即nxk矩阵，就是说对这n个电影给出概率或者打分来说明他是属于电影的哪一类如科幻、爱情、恐怖等等，此时的k就是代表电影的类型了也就是隐分类了，根据每部电影的行中不同的值来判断它属于那个电影类型的概率，这就是上图等号右边第一个矩阵的含义，那么等号右边的后面的那个矩阵代表什么呢？其实很类似的分析，每个用户代表着一列，那么每行代表在不同类型的电影，我们通过分析用户观看哪种类型的电影概率或者评分最高，以此来给用户推荐他喜欢的类型电影。</p>
+<p>由此我们可以发现在电影的评分中隐分类就代表着电影的类型，而分解后的两个矩阵对我们都很有用，这就是我们k的物理意义和分解后矩阵代表的含义，但是我们还没解释他是如何解决推荐系统的两个问题的，下面我们就来解释一下：假如我们分解后的矩阵的k值通常要比n和m小的多数值，如n=100万部电影，k=100种类型，m=100万人，我们来计算一下分解后的数据有多少个：nxk+kxm = 100万x100 + 100x100万 = 2亿个数据，需要2亿个存储单元，我们看看原始评分矩阵的大小：nxm= 100万x100万=10000亿，可想而知，存储量很大，因此矩阵分解可以起到降维、压缩数据的作用。因为数据压缩了其实就解决了稀疏性的问题，稍后大家会看到如何解决的，上面就是推荐系统的应用，那么在文本分类是如何使用的呢？</p>
+<h3 id="LSA用于文本分类"><a href="#LSA用于文本分类" class="headerlink" title="LSA用于文本分类"></a>LSA用于文本分类</h3><img src="https://img-blog.csdnimg.cn/20181219105441296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom:67%;" />
+
+<p>每篇文章我们都可以构造一个词向量，这样由多篇文章就可以构成一个矩阵，如上图的等号左边的图，这里的m就是文章数了，n就是每个词袋的元素数了，通过矩阵分解后就会得到像上图等号右边的第一个矩阵形式，和推荐系统类似，这里的k代表的就是隐分类，他的物理意义就是说在每个词向量（文本）的元素中概率或者评分相近的词，就是同义词和近义词了，那么第二个矩阵就相当于降维了，即我们关键的信息留下来，同义词和近义词我们按照左边的分解取一个概率最大的表示，如我们讨论两个文本是否相似时，我们知道评分矩阵的维度是很大，而且还是稀疏的，但是我们通过矩阵分解以后就会得到隐特征，即主要的信息都保存下来了，此时我们的矩阵就不在是稀疏了，这也就解释了为什么起到降维和解决稀疏矩阵的原理了。</p>
+<p>这里大家不应太纠结隐分类到底代表什么，我们不需要知道，只需要判断即可，这就是SVD用在文本分类中的原理，因为文本分类是最早使用SVD的，因此，推荐系统是借鉴了文本分类的应用才研究出推荐系统的，这里就不在过多讨论了，大家肯定想知道，这个矩阵分解到底是如何做呢？怎么得到这个k的值呢？如何确定呢？是人为确定还是自动生成呢？我们的主要精力就来看看SVD到底是如何分解的。答：奇异值矩阵分解。</p>
+<h2 id="PLSA（基于概率的隐语意分析）"><a href="#PLSA（基于概率的隐语意分析）" class="headerlink" title="PLSA（基于概率的隐语意分析）"></a>PLSA（基于概率的隐语意分析）</h2><img src="https://img-blog.csdnimg.cn/20181219105441296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom:80%;" />
+
+
+
+<p>我们通过矩阵的分解对文本数据进行压缩，压缩量很可观，尤其是原始的矩阵的维度很高时压缩的更可观，因为k通常要远远小于n。</p>
+<p>如上图等号左边的矩阵其实就是我们的文本的词向量组成的，我们知道一篇文章的词是很多的，而且还是稀疏的，如果一旦文章数也很多,那么整个矩阵的元素会很大很大，但是通过矩阵分解就会减少很多。上图中的每一列都代表一个文本的词向量，里面的值是词向量的权值，那么我们分解后的矩阵分别代表什么呢？其中k就是隐分类或者说是隐特征，如果多个词在同一列出现就说明这几个词是相近的，在最右边的矩阵是什么意思呢？可以理解为经过压缩后的文本特征，每个文本都有k个特征，然后对比一下，以此来判断是否相似。</p>
+<p>还有一种用法就是我先通过矩阵分解，然后在组合成nxm的矩阵，这个新组合的矩阵和原始矩阵很像，但是肯定不一样，因为我们中间在特征值时略去了部分特征值，怎么理解这一步呢？大家可以理解为我们是==去除噪声==，留下的才是主要特征，和PCA技术差不多。但是这个方法就没有缺点吗？有的，下面我们来看看：</p>
+<p>缺点是SVD的分解的计算量太大，计算复杂度高，当矩阵达到1000维以上时计算已经非常缓慢，但文本分析一般都会形成非常大型的“文档-词”矩阵，从而难以实现，甚至存储都很困难。因此需要引入新的求解SVD的方法，这时一种新型的求解思路就出来了，下面还以推荐系统的电影分类为例进行讲解：</p>
+<img src="https://img-blog.csdnimg.cn/2018121910050073.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom:67%;" />
+
+<p>按照我们上一节的内容就是当得到评分矩阵时，就可以直接对其进行分解，但是问题是当这个评分矩阵的维度很大时，SVD的计算量将很大，为了避免这么大的计算量，我们采用这样的做法，就是我把上图的等号右边的两个矩阵的元素全看做 变量，对，你没看错，全看做变量，那么我让他们相乘就会得到和原始评分矩阵维度一样的矩阵，那么这个时候我把原始矩阵已知的值和计算出来的矩阵相对应位置的值尽量相等，这样就建立了优化函数，然后使用优化算法使其误差达到最低，一旦我们合成的矩阵符合我们的要求，同时就可推测原始评分稀疏矩阵的值了，通过预测的值的大小就可以推荐给用户分值高的电影了，下面结合图来讲：</p>
+<img src="https://img-blog.csdnimg.cn/2018121919005668.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM5ODY1OA==,size_16,color_FFFFFF,t_70" alt="img" style="zoom: 67%;" />
+
+<p>首先我们构建两个矩阵维度为nxk和kxm的，如上图的中间部分，那么我把这两个矩阵的元素都看做变量，这时候把矩阵相乘得到合成评分矩阵B，如上图的右端，那么把合成的数据和原始的评分矩阵A对应的位置相比较如上图的A蓝色点，黄色点是缺少的（意思是用户没有看过该影片），使他们尽量的接近，怎么衡量呢？误差平方和函数呀，因此可以得到关于很多变量的误差函数L，此时我们使用优化算法进行优化，一旦达到我们的要求，那么说明我们的分解矩阵就确定了，此时使用这个 再去预测A矩阵的位置的黄色的点，这可以对评分矩阵的稀缺值进行填充，进而根据分值大小给用户推荐电影了，就是这个原理。这样就巧妙的避免了求解SVD了，一旦得到优化函数，我们就可以通过梯度下降得到我们的极值。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">JfyhDcm</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://jfyhdcm.github.io/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/">https://jfyhdcm.github.io/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%8D%E5%90%91%E9%87%8F/">词向量</a><a class="post-meta__tags" href="/tags/LSA/">LSA</a><a class="post-meta__tags" href="/tags/SVD/">SVD</a><a class="post-meta__tags" href="/tags/pLSA/">pLSA</a><a class="post-meta__tags" href="/tags/LDA/">LDA</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/"><img class="prev-cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">朴素贝叶斯</div></div></a></div><div class="next-post pull-right"><a href="/2021/10/24/WordEmbedding1:BagofWords/"><img class="next-cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">WordEmbedding1:BagofWords</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/10/24/WordEmbedding1:BagofWords/" title="WordEmbedding1:BagofWords"><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-24</div><div class="title">WordEmbedding1:BagofWords</div></div></a></div><div><a href="/2021/10/24/WordEmbedding3:基于词向量的固定表征/" title=""><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-24</div><div class="title"></div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/ava.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">JfyhDcm</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JfyhDcm"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JfyhDcm" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:836439982@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">千金难买寸光阴</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">主题模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LSA%EF%BC%88%E9%9A%90%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">LSA（隐语义分析）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SVD%EF%BC%88%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">SVD（奇异值分解）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSA%E7%94%A8%E4%BA%8E%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.2.</span> <span class="toc-text">LSA用于文本分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PLSA%EF%BC%88%E5%9F%BA%E4%BA%8E%E6%A6%82%E7%8E%87%E7%9A%84%E9%9A%90%E8%AF%AD%E6%84%8F%E5%88%86%E6%9E%90%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">PLSA（基于概率的隐语意分析）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/WordEmbedding3:%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%90%91%E9%87%8F%E7%9A%84%E5%9B%BA%E5%AE%9A%E8%A1%A8%E5%BE%81/" title="No title"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2021/10/24/WordEmbedding3:%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%90%91%E9%87%8F%E7%9A%84%E5%9B%BA%E5%AE%9A%E8%A1%A8%E5%BE%81/" title="No title">No title</a><time datetime="2021-10-24T09:23:49.377Z" title="Created 2021-10-24 17:23:49">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" title="朴素贝叶斯"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="朴素贝叶斯"/></a><div class="content"><a class="title" href="/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" title="朴素贝叶斯">朴素贝叶斯</a><time datetime="2021-10-24T07:39:32.744Z" title="Created 2021-10-24 15:39:32">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/" title="No title"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2021-10-24T07:23:53.863Z" title="Created 2021-10-24 15:23:53">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/WordEmbedding1:BagofWords/" title="WordEmbedding1:BagofWords"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WordEmbedding1:BagofWords"/></a><div class="content"><a class="title" href="/2021/10/24/WordEmbedding1:BagofWords/" title="WordEmbedding1:BagofWords">WordEmbedding1:BagofWords</a><time datetime="2021-10-24T03:38:37.249Z" title="Created 2021-10-24 11:38:37">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/18/CPP-STL/" title="CPP-STL"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CPP-STL"/></a><div class="content"><a class="title" href="/2021/06/18/CPP-STL/" title="CPP-STL">CPP-STL</a><time datetime="2021-06-18T03:48:16.212Z" title="Created 2021-06-18 11:48:16">2021-06-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By JfyhDcm</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WordEmbedding1:BagofWords | JfyhDcm's Blog</title><meta name="keywords" content="词向量,TF-IDF,TextRank,PageRank"><meta name="author" content="JfyhDcm"><meta name="copyright" content="JfyhDcm"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="&#x3D;&#x3D;基于one-hot、tf-idf、textrank等的bag-of-words；&#x3D;&#x3D; 主题模型：LSA（SVD）、pLSA、LDA； 基于词向量的固定表征：word2vec、fastText、glove 基于词向量的动态表征：elmo、GPT、bert  Bag-of-wordsTF-IFD算法TF-IDF（term frequency–inverse document frequency，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordEmbedding1:BagofWords">
+<meta property="og:url" content="https://jfyhdcm.github.io/2021/10/24/WordEmbedding1:BagofWords/index.html">
+<meta property="og:site_name" content="JfyhDcm&#39;s Blog">
+<meta property="og:description" content="&#x3D;&#x3D;基于one-hot、tf-idf、textrank等的bag-of-words；&#x3D;&#x3D; 主题模型：LSA（SVD）、pLSA、LDA； 基于词向量的固定表征：word2vec、fastText、glove 基于词向量的动态表征：elmo、GPT、bert  Bag-of-wordsTF-IFD算法TF-IDF（term frequency–inverse document frequency，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg">
+<meta property="article:published_time" content="2021-10-24T03:38:37.249Z">
+<meta property="article:modified_time" content="2021-10-24T07:36:46.258Z">
+<meta property="article:author" content="JfyhDcm">
+<meta property="article:tag" content="词向量">
+<meta property="article:tag" content="TF-IDF">
+<meta property="article:tag" content="TextRank">
+<meta property="article:tag" content="PageRank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg"><link rel="shortcut icon" href="/img/dragon.png"><link rel="canonical" href="https://jfyhdcm.github.io/2021/10/24/WordEmbedding1:BagofWords/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WordEmbedding1:BagofWords',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-10-24 15:36:46'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/ava.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">JfyhDcm's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">WordEmbedding1:BagofWords</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-10-24T03:38:37.249Z" title="Created 2021-10-24 11:38:37">2021-10-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-10-24T07:36:46.258Z" title="Updated 2021-10-24 15:36:46">2021-10-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/NLP/">NLP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="WordEmbedding1:BagofWords"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+<li>==<strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong>==</li>
+<li><strong>主题模型：LSA（SVD）、pLSA、LDA；</strong></li>
+<li><strong>基于词向量的固定表征：word2vec、fastText、glove</strong></li>
+<li><strong>基于词向量的动态表征：elmo、GPT、bert</strong></li>
+</ul>
+<h1 id="Bag-of-words"><a href="#Bag-of-words" class="headerlink" title="Bag-of-words"></a>Bag-of-words</h1><h2 id="TF-IFD算法"><a href="#TF-IFD算法" class="headerlink" title="TF-IFD算法"></a>TF-IFD算法</h2><p>TF-IDF（term frequency–inverse document frequency，词频-逆向文件频率）是一种用于信息检索（information retrieval）与文本挖掘（text mining）的常用加权技术。</p>
+<p>   TF-IDF是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要性随着它在**==文件==<strong>中出现的次数成正比增加，但同时会随着它在</strong>==语料库==**中出现的频率成反比下降。</p>
+<p>   TF-IDF的主要思想是：如果某个单词在一篇文章中出现的频率TF高，并且在其他文章中很少出现，则认为此词或者短语具有很好的类别区分能力，适合用来分类。</p>
+<p>TF词频 公式：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq88r14w2j605l0203yc02.jpg" alt="img"></p>
+<p>即：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq89qvhplj609m01wt8p02.jpg" alt="img"></p>
+<p>IDF 逆向文件频率：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvq8a9n46bj607w02a0sm02.jpg" alt="img"></p>
+<p>即：<img src="https://img-blog.csdn.net/20180807191126207?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzaWFsZWVfYmlyZA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>TF-IDF为：<img src="https://img-blog.csdn.net/201808071912424?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzaWFsZWVfYmlyZA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<ul>
+<li>优点：1. 可用某篇文章中出现次数多但在其他文章中出现次数少的词来作为该篇文章的特征词。2. 使罕见的单词更加突出并且有效地忽略了常用单词 3. 易于理解</li>
+<li>缺点：1. 因为是词袋模型，所以没有考虑词的位置信息，但词的位置是有一定含义的。2. 并不能反映单词的重要程度和特征词的分布情况。</li>
+</ul>
+<h2 id="TextRank"><a href="#TextRank" class="headerlink" title="TextRank"></a>TextRank</h2><h3 id="PageRank算法"><a href="#PageRank算法" class="headerlink" title="PageRank算法"></a>PageRank算法</h3><ul>
+<li>如果一个网页被很多其他网页链接到的话说明这个网页比较重要，也就是PageRank值会相对较高</li>
+<li>如果一个PageRank值很高的网页链接到一个其他的网页，那么被链接到的网页的PageRank值会相应地因此而提高</li>
+</ul>
+<img src="https://raw.githubusercontent.com/evilKing/storage_image/master/page_rank1.png" alt="img" style="zoom:50%;" />
+
+<p>PageRank算法预先给每个网页一个 PR值（下面用 PR值指代 PageRank值），由于 PR值物理意义上为一个网页被访问概率，所以一般是1/N ，其中 N 为网页总数。另外，一般情况下，所有网页的 PR值的总和为 1。如果不为 1的话也不是不行，最后算出来的不同网页之间 PR值的大小关系仍然是正确的，只是不能直接地反映概率了。</p>
+<p><img src="https://raw.githubusercontent.com/evilKing/storage_image/master/page_rank.jpg" alt="img"></p>
+<p>互联网中的众多网页可以看作一个有向图。预先给定 PR值后，通过下面的算法不断迭代，直至达到平稳分布为止。这时 A 的 PR值就可以表示为 :<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8d903cj60de02ewee02.jpg" alt="image-20211024111841444" style="zoom:50%;" />然而图中除了 C 之外，B 和 D 都不止有一条出链，所以上面的计算式并不准确。想象一个用户现在浏览 B 网页，那么下一步他打开 A 网页还是 D网页在统计上应该是相同概率的。所以 A 的 PR值应该表述为 :<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8can5wj60fe03qt8n02.jpg" alt="image-20211024112044985" style="zoom:50%;" /></p>
+<p>互联网中不乏一些没有出链的网页，如图:</p>
+<p><img src="https://raw.githubusercontent.com/evilKing/storage_image/master/page_rank3.jpg" alt="img"></p>
+<p>图中的 C 网页没有出链，对其他网页没有 PR值的贡献，我们不喜欢这种自私的网页（其实是为了满足 Markov 链的收敛性），于是设定其对所有的网页（包括它自己）都有出链，则此图中A的PR值（设定C也连到了A）可表示为：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8g2hmmj60e604gwef02.jpg" alt="image-20211024112321973" style="zoom:50%;" />
+
+<p>然而我们再考虑一种情况：互联网中一个网页只有对自己的出链，或者几个网页的出链形成一个循环圈。那么在不断地迭代过程中，这一个或几个网页的PR值将只增不减，显然不合理。如下图中的 C 网页就是刚刚说的只有对自己的出链的网页：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8e4r2zj60hu0fc3yx02.jpg" alt="image-20211024112609155" style="zoom:50%;" />
+
+<p>为了解决这个问题，我们想象一个随机浏览网页的人，当他到达 C 网页后，显然不会傻傻地一直被 C 网页的小把戏困住。我们假定他有一个确定的概率会输入网址直接跳转到一个随机的网页，并且跳转到每个网页的概率是一样的。于是则此图中 A 的 PR值可表示为：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqf8f4rwvj60hy04wjrc02.jpg" alt="image-20211024112634051" style="zoom:50%;" />这里的α是阻尼系数，google系统选用0.85，表示用户愿意按照网页跳转指示浏览网页的概率。</p>
+<p>总结一下：<img src="https://pic1.zhimg.com/80/v2-0d6c3c27eeee373e89b02e57630df6e4_1440w.jpg" alt="img"></p>
+<h3 id="TextRank-1"><a href="#TextRank-1" class="headerlink" title="TextRank"></a>TextRank</h3><p>网页之间的链接关系可以用图表示，那么怎么把一个句子（可以看作词的序列）构建成图呢？TextRank将某一个词与其前面的N个词、以及后面的N个词均具有图相邻关系（类似于N-gram语法模型）。</p>
+<p>具体实现：设置一个长度为N的滑动窗口，所有在这个窗口之内的词都视作词结点的相邻结点；则TextRank构建的词图为无向图。下图给出了由一个文档构建的词图（去掉了停用词并按词性做了筛选）：</p>
+<img src="https://pic2.zhimg.com/80/v2-45e33818add08141d4deea618d1bd6c9_1440w.jpg" alt="img" style="zoom: 50%;" />
+
+<p>考虑到不同词对可能有不同的共现（co-occurrence），TextRank将共现作为无向图边的权值。那么，TextRank的迭代计算公式如下：<img src="https://pic2.zhimg.com/80/v2-04b2c330a7f471e8b93f78963e6c1619_1440w.jpg" alt="img"></p>
+<p>d为阻尼系数；$w_{ij}$为权重，用来表示两个节点间边连接的不同重要程度。</p>
+<p>==最后求得各节点权重。==</p>
+<h3 id="TextRank用户关键词提取"><a href="#TextRank用户关键词提取" class="headerlink" title="TextRank用户关键词提取"></a>TextRank用户关键词提取</h3><p>1)把给定的文本T按照完整句子进行分割，即</p>
+<p><img src="https://pic2.zhimg.com/80/v2-8c209ef93e503864960a934bc6a5b389_1440w.jpg" alt="img"></p>
+<p>2)对于每个句子Si属于T，进行分词和词性标注处理，并过滤掉停用词，只保留指定词性的单词，如名词、动词、形容词，即</p>
+<p><img src="https://pic3.zhimg.com/80/v2-d9ab45963e0e227ebc98e871802fa31a_1440w.jpg" alt="img"></p>
+<p>，其中 ti,j 是保留后的候选关键词。</p>
+<p>　　3)构建候选关键词图G = (V,E)，其中V为节点集，由（2）生成的候选关键词组成，然后采用共现关系（co-occurrence）构造任两点之间的边，两个节点之间存在边仅当它们对应的词汇在长度为K的窗口中共现，K表示窗口大小，即最多共现K个单词。</p>
+<p>　　4)根据上面公式，迭代传播==各节点的权重==，直至收敛。</p>
+<p>　　5)对节点权重进行倒序排序，从而得到最重要的T个单词，作为候选关键词。</p>
+<p>　　6)由5得到最重要的T个单词，在原始文本中进行标记，若形成相邻词组，则组合成多词关键词。</p>
+<p><strong>补充：提取关键词短语</strong>：提取关键词短语的方法基于关键词提取，可以简单认为：如果提取出的若干关键词在文本中相邻，那么构成一个被提取的关键短语。</p>
+<p><strong>停用词：</strong>是指在信息检索中，为节省存储空间和提高搜索效率，在处理自然语言数据（或文本）之前或之后会自动过滤掉某些字或词，这些字或词即被称为Stop Words（停用词）。这些停用词都是人工输入、非自动化生成的，生成后的停用词会形成一个停用词表。但是，并没有一个明确的停用词表能够适用于所有的工具。甚至有一些工具是明确地避免使用停用词来支持短语搜索的。</p>
+<h3 id="TextRank生成文章摘要"><a href="#TextRank生成文章摘要" class="headerlink" title="TextRank生成文章摘要"></a>TextRank生成文章摘要</h3><p>　　将文本中的每个句子分别看做一个节点，如果两个句子有相似性，那么认为这两个句子对应的节点之间存在一条无向有权边。考察句子相似度的方法是下面这个公式：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181104103726372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FpYW45OQ==,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p>公式中，Si,Sj分别表示两个句子词的个数总数，Wk表示句子中的词，那么分子部分的意思是同时出现在两个句子中的同一个词的个数，<u>分母是对句子中词的个数求对数之和。分母这样设计可以遏制较长的句子在相似度计算上的优势。</u></p>
+<p>我们可以根据以上相似度公式循环计算任意两个节点之间的相似度，根据阈值去掉两个节点之间相似度较低的边连接，构建出节点连接图，然后计算TextRank值，最后对所有TextRank值排序，选出TextRank值最高的几个节点对应的句子作为摘要。</p>
+<h2 id="Bag-of-Words"><a href="#Bag-of-Words" class="headerlink" title="Bag of Words"></a>Bag of Words</h2><p>​    Bag of words模型，也叫做“词袋”，在信息检索中，Bag of words model假定对于一个文本，忽略其词序和语法、句法，将其仅仅看做是一个词集合，或者说是词的一个组合，文本中每个词的出现都是独立的，不依赖于其他词是否出现，或者说当这篇文章的作者在任意一个位置选择一个词汇都不受前面句子的影响而独立选择的。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">JfyhDcm</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://jfyhdcm.github.io/2021/10/24/WordEmbedding1:BagofWords/">https://jfyhdcm.github.io/2021/10/24/WordEmbedding1:BagofWords/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%8D%E5%90%91%E9%87%8F/">词向量</a><a class="post-meta__tags" href="/tags/TF-IDF/">TF-IDF</a><a class="post-meta__tags" href="/tags/TextRank/">TextRank</a><a class="post-meta__tags" href="/tags/PageRank/">PageRank</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><img class="prev-cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2021/06/18/CPP-STL/"><img class="next-cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">CPP-STL</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/10/24/WordEmbedding2:主题模型/" title=""><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-24</div><div class="title"></div></div></a></div><div><a href="/2021/10/24/WordEmbedding3:基于词向量的固定表征/" title=""><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-24</div><div class="title"></div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/ava.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">JfyhDcm</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JfyhDcm"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JfyhDcm" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:836439982@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">千金难买寸光阴</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Bag-of-words"><span class="toc-number">1.</span> <span class="toc-text">Bag-of-words</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TF-IFD%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">TF-IFD算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TextRank"><span class="toc-number">1.2.</span> <span class="toc-text">TextRank</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PageRank%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.1.</span> <span class="toc-text">PageRank算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TextRank-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">TextRank</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TextRank%E7%94%A8%E6%88%B7%E5%85%B3%E9%94%AE%E8%AF%8D%E6%8F%90%E5%8F%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">TextRank用户关键词提取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TextRank%E7%94%9F%E6%88%90%E6%96%87%E7%AB%A0%E6%91%98%E8%A6%81"><span class="toc-number">1.2.4.</span> <span class="toc-text">TextRank生成文章摘要</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bag-of-Words"><span class="toc-number">1.3.</span> <span class="toc-text">Bag of Words</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/WordEmbedding3:%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%90%91%E9%87%8F%E7%9A%84%E5%9B%BA%E5%AE%9A%E8%A1%A8%E5%BE%81/" title="No title"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2021/10/24/WordEmbedding3:%E5%9F%BA%E4%BA%8E%E8%AF%8D%E5%90%91%E9%87%8F%E7%9A%84%E5%9B%BA%E5%AE%9A%E8%A1%A8%E5%BE%81/" title="No title">No title</a><time datetime="2021-10-24T09:23:49.377Z" title="Created 2021-10-24 17:23:49">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" title="朴素贝叶斯"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="朴素贝叶斯"/></a><div class="content"><a class="title" href="/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" title="朴素贝叶斯">朴素贝叶斯</a><time datetime="2021-10-24T07:39:32.744Z" title="Created 2021-10-24 15:39:32">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/" title="No title"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2021/10/24/WordEmbedding2:%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2021-10-24T07:23:53.863Z" title="Created 2021-10-24 15:23:53">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/24/WordEmbedding1:BagofWords/" title="WordEmbedding1:BagofWords"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WordEmbedding1:BagofWords"/></a><div class="content"><a class="title" href="/2021/10/24/WordEmbedding1:BagofWords/" title="WordEmbedding1:BagofWords">WordEmbedding1:BagofWords</a><time datetime="2021-10-24T03:38:37.249Z" title="Created 2021-10-24 11:38:37">2021-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/18/CPP-STL/" title="CPP-STL"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CPP-STL"/></a><div class="content"><a class="title" href="/2021/06/18/CPP-STL/" title="CPP-STL">CPP-STL</a><time datetime="2021-06-18T03:48:16.212Z" title="Created 2021-06-18 11:48:16">2021-06-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By JfyhDcm</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
