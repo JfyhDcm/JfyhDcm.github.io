@@ -8,6 +8,70 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Language Model</title>
+    <url>/2021/10/25/Language%20Model/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>Language Model</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HMM</title>
+    <url>/2021/10/25/HMM/</url>
+    <content><![CDATA[<h1 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h1><h2 id="熵"><a href="#熵" class="headerlink" title="熵"></a>熵</h2><p>简单来说，熵是表示物质系统状态的一种度量，用它老表征系统的无序程度。<em><strong>熵越大，系统越无序</strong></em>，意味着系统结构和运动的不确定和无规则；反之，<em><strong>熵越小，系统越有序</strong></em>，意味着具有确定和有规则的运动状态。熵的中文意思是热量被温度除的商。负熵是物质系统有序化，组织化，复杂化状态的一种度量。</p>
+<p>熵最早来原于<strong>物理学</strong>. 德国物理学家鲁道夫·克劳修斯首次提出熵的概念，用来表示任何一种能量在空间中分布的均匀程度，能量分布得越均匀，熵就越大。</p>
+<h2 id="隐马尔科夫模型"><a href="#隐马尔科夫模型" class="headerlink" title="隐马尔科夫模型"></a>隐马尔科夫模型</h2><p><strong>隐马尔可夫模型</strong>（Hidden Markov Model，HMM）是统计模型，它用来描述一个含有隐含未知参数的马尔可夫过程。其难点是从可观察的参数中确定该过程的隐含参数。然后利用这些参数来作进一步的分析，例如模式识别。</p>
+<p>是在被建模的系统被认为是一个马尔可夫过程与未观测到的（隐藏的）的状态的统计马尔可夫模型。</p>
+<p>下面用一个简单的例子来阐述：</p>
+<p>假设我手里有三个不同的骰子。第一个骰子是我们平常见的骰子（称这个骰子为D6），6个面，每个面（1，2，3，4，5，6）出现的概率是1/6。第二个骰子是个四面体（称这个骰子为D4），每个面（1，2，3，4）出现的概率是1/4。第三个骰子有八个面（称这个骰子为D8），每个面（1，2，3，4，5，6，7，8）出现的概率是1/8。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrji6v89zj60gn091aan02.jpg" alt="image" style="zoom:75%;" />
+
+<p>假设我们开始掷骰子，我们先从三个骰子里挑一个，挑到每一个骰子的概率都是1/3。然后我们掷骰子，得到一个数字，1，2，3，4，5，6，7，8中的一个。不停的重复上述过程，我们会得到一串数字，每个数字都是1，2，3，4，5，6，7，8中的一个。例如我们可能得到这么一串数字（掷骰子10次）：1 6 3 5 2 7 3 5 2 4</p>
+<p>这串数字叫做可见状态链。但是在隐马尔可夫模型中，我们不仅仅有这么一串可见状态链，还有一串隐含状态链。在这个例子里，这串隐含状态链就是你用的骰子的序列。比如，隐含状态链有可能是：D6 D8 D8 D6 D4 D8 D6 D6 D4 D8</p>
+<p>一般来说，HMM中说到的马尔可夫链其实是指隐含状态链，因为隐含状态（骰子）之间存在转换概率（transition probability）。在我们这个例子里，D6的下一个状态是D4，D6，D8的概率都是1/3。D4，D8的下一个状态是D4，D6，D8的转换概率也都一样是1/3。这样设定是为了最开始容易说清楚，但是我们其实是可以随意设定转换概率的。比如，我们可以这样定义，D6后面不能接D4，D6后面是D6的概率是0.9，是D8的概率是0.1。这样就是一个新的HMM。</p>
+<p>同样的，尽管可见状态之间没有转换概率，但是隐含状态和可见状态之间有一个概率叫做输出概率（emission probability）。就我们的例子来说，六面骰（D6）产生1的输出概率是1/6。产生2，3，4，5，6的概率也都是1/6。我们同样可以对输出概率进行其他定义。比如，我有一个被赌场动过手脚的六面骰子，掷出来是1的概率更大，是1/2，掷出来是2，3，4，5，6的概率是1/10。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjhxhdlzj60fz08njrx02.jpg" alt="image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjhrfzs3j609c08oaa302.jpg" alt="image"></p>
+<p>其实对于HMM来说，如果提前知道所有隐含状态之间的转换概率和所有隐含状态到所有可见状态之间的输出概率，做模拟是相当容易的。但是应用HMM模型时候呢，往往是缺失了一部分信息的，有时候你知道骰子有几种，每种骰子是什么，但是不知道掷出来的骰子序列；有时候你只是看到了很多次掷骰子的结果，剩下的什么都不知道。如果应用算法去估计这些缺失的信息，就成了一个很重要的问题。这些算法我会在下面详细讲。</p>
+<p>×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××<br>   如果你只想看一个简单易懂的例子，就不需要往下看了。<br>   ×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××<br>  说两句废话，答主认为呢，要了解一个算法，要做到以下两点：会其意，知其形。答主回答的，其实主要是第一点。但是这一点呢，恰恰是最重要，而且很多书上不会讲的。正如你在追一个姑娘，姑娘对你说“你什么都没做错！”你要是只看姑娘的表达形式呢，认为自己什么都没做错，显然就理解错了。你要理会姑娘的意思，“你赶紧给我道歉！”这样当你看到对应的表达形式呢，赶紧认错，跪地求饶就对了。数学也是一样，你要是不理解意思，光看公式，往往一头雾水。不过呢，数学的表达顶多也就是晦涩了点，姑娘的表达呢，有的时候就完全和本意相反。所以答主一直认为理解姑娘比理解数学难多了。</p>
+<p>回到正题，和HMM模型相关的算法主要分为三类，分别解决三种问题：<br> <em><strong>1）知道骰子有几种（隐含状态数量），每种骰子是什么（转换概率），根据掷骰子掷出的结果（可见状态链），我想知道每次掷出来的都是哪种骰子（隐含状态链）。</strong></em><br>   这个问题呢，在语音识别领域呢，叫做解码问题。这个问题其实有两种解法，会给出两个不同的答案。每个答案都对，只不过这些答案的意义不一样。第一种解法求最大似然状态路径，说通俗点呢，就是我求一串骰子序列，这串骰子序列产生观测结果的概率最大。第二种解法呢，就不是求一组骰子序列了，而是求每次掷出的骰子分别是某种骰子的概率。比如说我看到结果后，我可以求得第一次掷骰子是D4的概率是0.5，D6的概率是0.3，D8的概率是0.2.第一种解法我会在下面说到，但是第二种解法我就不写在这里了，如果大家有兴趣，我们另开一个问题继续写吧。</p>
+<p><em><strong>2）还是知道骰子有几种（隐含状态数量），每种骰子是什么（转换概率），根据掷骰子掷出的结果（可见状态链），我想知道掷出这个结果的概率。</strong></em><br>   看似这个问题意义不大，因为你掷出来的结果很多时候都对应了一个比较大的概率。问这个问题的目的呢，其实是检测观察到的结果和已知的模型是否吻合。如果很多次结果都对应了比较小的概率，那么就说明我们已知的模型很有可能是错的，有人偷偷把我们的骰子給换了。</p>
+<p><em><strong>3）知道骰子有几种（隐含状态数量），不知道每种骰子是什么（转换概率），观测到很多次掷骰子的结果（可见状态链），我想反推出每种骰子是什么（转换概率）。</strong></em><br>   这个问题很重要，因为这是最常见的情况。很多时候我们只有可见结果，不知道HMM模型里的参数，我们需要从可见结果估计出这些参数，这是建模的一个必要步骤。</p>
+<p>问题阐述完了，下面就开始说解法。（0号问题在上面没有提，只是作为解决上述问题的一个辅助）<br>   0.一个简单问题<br>其实这个问题实用价值不高。由于对下面较难的问题有帮助，所以先在这里提一下。<br>知道骰子有几种，每种骰子是什么，每次掷的都是什么骰子，根据掷骰子掷出的结果，求产生这个结果的概率。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjhomoeaj60a006mwen02.jpg" alt="image"></p>
+<p>解法无非就是概率相乘：<br><img src="http://zhihu.com/equation?tex=P=P(D6)*P(D6%5Crightarrow+1)*P(D6%5Crightarrow+D8)*P(D8%5Crightarrow+6)*P(D8%5Crightarrow+D8)*P(D8%5Crightarrow+3)" alt="img"><br><img src="http://zhihu.com/equation?tex==%5Cfrac%7B1%7D%7B3%7D+*%5Cfrac%7B1%7D%7B6%7D+*%5Cfrac%7B1%7D%7B3%7D+*%5Cfrac%7B1%7D%7B8%7D+*%5Cfrac%7B1%7D%7B3%7D+*%5Cfrac%7B1%7D%7B8%7D+" alt="img"></p>
+<p><strong>1.看见不可见的，破解骰子序列</strong><br>   这里我说的是第一种解法，解最大似然路径问题。<br>   举例来说，我知道我有三个骰子，六面骰，四面骰，八面骰。我也知道我掷了十次的结果（1 6 3 5 2 7 3 5 2 4），我不知道每次用了那种骰子，我想知道最有可能的骰子序列。</p>
+<p>其实最简单而暴力的方法就是穷举所有可能的骰子序列，然后依照第零个问题的解法把每个序列对应的概率算出来。然后我们从里面把对应最大概率的序列挑出来就行了。如果马尔可夫链不长，当然可行。如果长的话，穷举的数量太大，就很难完成了。<br>   另外一种很有名的算法叫做Viterbi algorithm. 要理解这个算法，我们先看几个简单的列子。<br>   首先，如果我们只掷一次骰子：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjhdujbxj601c035mwx02.jpg" alt="image"></p>
+<p>看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8.<br>   把这个情况拓展，我们掷两次骰子：<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjhb2n0kj602z02xa9v02.jpg" alt="image"></p>
+<p>结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是<br><img src="http://zhihu.com/equation?tex=P2(D6)=P(D4)*P(D4%5Crightarrow+1)*P(D4%5Crightarrow+D6)*P(D6%5Crightarrow+6)" alt="img"><br><img src="http://zhihu.com/equation?tex==%5Cfrac%7B1%7D%7B3%7D+*%5Cfrac%7B1%7D%7B4%7D+*%5Cfrac%7B1%7D%7B3%7D+*%5Cfrac%7B1%7D%7B6%7D" alt="img"><br>   同样的，我们可以计算第二个骰子是D4或D8时的最大概率。我们发现，第二个骰子取到D6的概率最大。而使这个概率最大时，第一个骰子为D4。所以最大概率骰子序列就是D4 D6。<br>继续拓展，我们掷三次骰子：<img src="https://images0.cnblogs.com/blog/133059/201507/161450394547765.png" alt="image"></p>
+<p>同样，我们计算第三个骰子分别是D6，D4，D8的最大概率。我们再次发现，要取到最大概率，第二个骰子必须为D6。这时，第三个骰子取到D4的最大概率是<img src="http://zhihu.com/equation?tex=P3(D4)=P2(D6)*P(D6%5Crightarrow+D4)*P(D4%5Crightarrow+3)" alt="img"><br><img src="http://zhihu.com/equation?tex==%5Cfrac%7B1%7D%7B216%7D+*%5Cfrac%7B1%7D%7B3%7D+*%5Cfrac%7B1%7D%7B4%7D" alt="img"><br>   同上，我们可以计算第三个骰子是D6或D8时的最大概率。我们发现，第三个骰子取到D4的概率最大。而使这个概率最大时，第二个骰子为D6，第一个骰子为D4。所以最大概率骰子序列就是D4 D6 D4。</p>
+<p>写到这里，大家应该看出点规律了。既然掷骰子一二三次可以算，掷多少次都可以以此类推。我们发现，我们要求最大概率骰子序列时要做这么几件事情。首先，不管序列多长，要从序列长度为1算起，算序列长度为1时取到每个骰子的最大概率。然后，逐渐增加长度，每增加一次长度，重新算一遍在这个长度下最后一个位置取到每个骰子的最大概率。因为上一个长度下的取到每个骰子的最大概率都算过了，重新计算的话其实不难。当我们算到最后一位时，就知道最后一位是哪个骰子的概率最大了。然后，我们要把对应这个最大概率的序列从后往前推出来。<br><strong>2.谁动了我的骰子？</strong><br>   比如说你怀疑自己的六面骰被赌场动过手脚了，有可能被换成另一种六面骰，这种六面骰掷出来是1的概率更大，是1/2，掷出来是2，3，4，5，6的概率是1/10。你怎么办么？答案很简单，算一算正常的三个骰子掷出一段序列的概率，再算一算不正常的六面骰和另外两个正常骰子掷出这段序列的概率。如果前者比后者小，你就要小心了。<br>   比如说掷骰子的结果是：<br><a href="http://images0.cnblogs.com/blog/133059/201507/161450402987108.png"><img src="https://images0.cnblogs.com/blog/133059/201507/161450406884821.png" alt="image"></a></p>
+<p>要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。<br>   我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做前向算法（forward algorithm）。<br>首先，如果我们只掷一次骰子：</p>
+<p><a href="http://images0.cnblogs.com/blog/133059/201507/161450412515950.png"><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjihyudaj601n033q2p02.jpg" alt="image"></a></p>
+<p>看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18：</p>
+<p><a href="http://images0.cnblogs.com/blog/133059/201507/161450427046706.png"><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjig6i68j60gh04rglo02.jpg" alt="image"></a></p>
+<p>把这个情况拓展，我们掷两次骰子：</p>
+<p><a href="http://images0.cnblogs.com/blog/133059/201507/161450442206677.png"><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjieaxkvj602y02w74302.jpg" alt="image"></a></p>
+<p>看到结果为1，6.产生这个结果的总概率可以按照如下计算，总概率为0.05：</p>
+<p><a href="http://images0.cnblogs.com/blog/133059/201507/161450450328560.png"><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjic0ladj60gk04t3yq02.jpg" alt="image"></a></p>
+<p>继续拓展，我们掷三次骰子：</p>
+<p><a href="http://images0.cnblogs.com/blog/133059/201507/161450469549473.png"><img src="https://images0.cnblogs.com/blog/133059/201507/161450480322045.png" alt="image"></a></p>
+<p>看到结果为1，6，3.产生这个结果的总概率可以按照如下计算，总概率为0.03：</p>
+<p><a href="http://images0.cnblogs.com/blog/133059/201507/161450499388728.png"><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjila0mqj60gh04uq3d02.jpg" alt="image"></a></p>
+<p>同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。</p>
+<p>原文：<a href="https://www.cnblogs.com/skyme/p/4651331.html">https://www.cnblogs.com/skyme/p/4651331.html</a></p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>HMM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>词嵌入1:BagofWords</title>
     <url>/2021/10/24/WordEmbedding1:BagofWords/</url>
     <content><![CDATA[<ul>
@@ -82,20 +146,7 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2021/10/24/WordEmbedding3:Fixed%20representation%20based%20on%20word%20vector/</url>
-    <content><![CDATA[<h1 id="基于词向量的固定表征"><a href="#基于词向量的固定表征" class="headerlink" title="基于词向量的固定表征"></a>基于词向量的固定表征</h1><h2 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h2>]]></content>
-      <categories>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>词向量</tag>
-        <tag>GloVe</tag>
-        <tag>Word2Vector</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
+    <title>词嵌入2：主题模型</title>
     <url>/2021/10/24/WordEmbedding2:ThemeModel/</url>
     <content><![CDATA[<ul>
 <li><strong>基于one-hot、tf-idf、textrank等的bag-of-words；</strong></li>
@@ -170,6 +221,36 @@
 ]]></content>
   </entry>
   <entry>
+    <title>朴素贝叶斯</title>
+    <url>/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</url>
+    <content><![CDATA[<h1 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h1><p>在所有的机器学习分类算法中，朴素贝叶斯和其他绝大多数的分类算法都不同。对于大多数的分类算法，比如决策树,KNN,逻辑回归，支持向量机等，他们都是判别方法，也就是直接学习出特征输出Y和特征X之间的关系，要么是决策函数𝑌=𝑓(𝑋)Y=f(X),要么是条件分布𝑃(𝑌|𝑋)P(Y|X)。但是朴素贝叶斯却是==生成方法==，也就是直接找出特征输出Y和特征X的联合分布𝑃(𝑋,𝑌)P(X,Y),然后用𝑃(𝑌|𝑋)=𝑃(𝑋,𝑌)/𝑃(𝑋)P(Y|X)=P(X,Y)/P(X)得出。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>贝叶斯公式是**==“执果索因”==**：发生了结果，那么哪个原因可能性大？</p>
+<img src="https://pic2.zhimg.com/80/v2-5ea21d9dcaeb14a5a163324b271e05a9_1440w.jpg" alt="img" style="zoom: 50%;" />
+
+<p>举个简单的例子：村子有且仅有两个小偷，小A和小B，根据统计A偷东西的可能性是0.2,B偷东西的可能性是0.8。如果A去偷，偷成功的概率是0.8， 如果B去偷，偷成功的概率是0.3。如果村子丢了一件东西，A和B谁是嫌疑犯的可能性更大？</p>
+<p>H={丢东西}</p>
+<p>A = {A去偷东西}</p>
+<p>B = {B去偷东西}</p>
+<p>P(A) + P(B) = 1</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzcij90j611c0n4jut02.jpg" alt="image-20211024155658056" style="zoom:50%;" />
+
+
+
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzd1ys1j60pk040q3602.jpg" alt="image-20211024163655561" style="zoom:50%;" />，然后假设各个维度的x相互独立，这样方便计算。</p>
+<p>现在发生了$x^{test}$，是那种$C^k$种类产生的概率比较大？先验+数据（似然），求后验概率，过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzdu5coj615y0j60v002.jpg" alt="image-20211024163838725"></p>
+<p>为了计算还会假设离散的样本符合伯努利分布，连续值符合正态分布。</p>
+<p>原文：<a href="https://www.cnblogs.com/pinard/p/6069267.html">https://www.cnblogs.com/pinard/p/6069267.html</a></p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>朴素贝叶斯</tag>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>动态规划</title>
     <url>/2021/06/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
     <content><![CDATA[<h3 id="数塔问题"><a href="#数塔问题" class="headerlink" title="数塔问题"></a><center>数塔问题</center></h3><p>当前的位置一定要走，从左OR从右</p>
@@ -222,44 +303,573 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2021/10/25/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP(1)/</url>
-    <content><![CDATA[]]></content>
+    <title>排序</title>
+    <url>/2021/05/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<img src="https://i.loli.net/2021/07/28/9j2c8MsQCd7GhqW.png" alt="image.png" style="zoom:80%;" />
+
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p><img src="https://i.loli.net/2021/07/28/58muPeCEJsRXvao.gif" alt="v2-62b35f38b9806cb2e50c7e4ee0ec3386_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(j=n<span class="number">-1</span>;j&gt;i;j--)&#123;</span><br><span class="line">      <span class="keyword">if</span>(A[j<span class="number">-1</span>]&gt;A[j])&#123;</span><br><span class="line">        <span class="built_in">swap</span>(A[j<span class="number">-1</span>],A[j]);</span><br><span class="line">        flag=<span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag==<span class="literal">false</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="选择排序法"><a href="#选择排序法" class="headerlink" title="选择排序法"></a>选择排序法</h2><p><img src="https://i.loli.net/2021/07/28/rxCE7jPqwzkJsvi.gif" alt="v2-c5e176ffc200c8f4f137e732fe860b60_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    min=i;</span><br><span class="line">    <span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;n;j++)</span><br><span class="line">      <span class="keyword">if</span>(A[j]&lt;A[min]) min=j;</span><br><span class="line">    <span class="keyword">if</span>(min!=i) </span><br><span class="line">      <span class="built_in">swap</span>(A[i],A[min]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="插入排序法"><a href="#插入排序法" class="headerlink" title="插入排序法"></a>插入排序法</h2><p><img src="https://i.loli.net/2021/07/28/9k8UFYowPH4Q2jD.gif" alt="v2-38d6f9c006e3fdb24ffd82a58c39ca92_720w.gif"></p>
+<h3 id="直接插入法"><a href="#直接插入法" class="headerlink" title="直接插入法"></a>直接插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;	</span><br><span class="line">  <span class="keyword">int</span> i,j;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;A[<span class="number">0</span>]&lt;A[j];--j)&#123;</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    &#125;</span><br><span class="line">    A[j+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="折半插入法"><a href="#折半插入法" class="headerlink" title="折半插入法"></a>折半插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i,j,low,high,mid;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    low=<span class="number">1</span>;high=i<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;=high)&#123;</span><br><span class="line">      mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">      <span class="keyword">if</span>(A[mid]&gt;A[<span class="number">0</span>]) high=mid<span class="number">-1</span>;</span><br><span class="line">      <span class="keyword">else</span> low=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;j&gt;=high+<span class="number">1</span>;--j)</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    A[high+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="希尔排序法-缩小增量排序"><a href="#希尔排序法-缩小增量排序" class="headerlink" title="希尔排序法/缩小增量排序"></a>希尔排序法/缩小增量排序</h2><p><img src="https://i.loli.net/2021/07/28/avz8JiowZNMb6Ck.gif" alt="v2-924c253a0ce18b65eb5d590699c8773b_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShellSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(dk=n/<span class="number">2</span>;dk&gt;=<span class="number">1</span>;dk/=<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span>(i=dk+<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">      <span class="keyword">if</span>(A[i]&lt;A[i-dk])&#123;</span><br><span class="line">        A[<span class="number">0</span>]=A[i];</span><br><span class="line">        <span class="keyword">for</span>(j=i-dk;j&gt;<span class="number">0</span>&amp;&amp;A[<span class="number">0</span>]&lt;A[j];j-=dk)</span><br><span class="line">          A[j+dk]=A[j];</span><br><span class="line">        A[j+dk]=A[<span class="number">0</span>];</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><img src="https://i.loli.net/2021/07/28/OgrIWpRxiEhLzP2.gif" alt="v2-ed06651ca489ff4454e9889ca0d753db_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ElemType *B=(ElemType *)<span class="built_in">malloc</span>((n+<span class="number">1</span>)*<span class="built_in"><span class="keyword">sizeof</span></span>(ElemType));</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Merge</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> mid,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> k=low;k&lt;=high;k++)</span><br><span class="line">    B[k]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=low,j=mid+<span class="number">1</span>,k=i;i&lt;=mid&amp;&amp;j&lt;=high;k++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(B[i]&lt;=B[j])</span><br><span class="line">      A[k]=B[i++];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      A[k]=B[j++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;=mid) A[k++]=B[i++];</span><br><span class="line">  <span class="keyword">while</span>(j&lt;=high) A[k++]=B[j++];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,low,mid);</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,mid+<span class="number">1.</span>high);</span><br><span class="line">    <span class="built_in">Merge</span>(A,low,mid,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="快速排序法"><a href="#快速排序法" class="headerlink" title="快速排序法"></a>快速排序法</h2><p><img src="https://i.loli.net/2021/07/28/EiQ9IC1hTcsSdOX.gif" alt="v2-e30a1dcb54af5e222243d8053d3a5a0d_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> pivotpos=<span class="built_in">Partition</span>(A,low,high);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,low,pivotpos<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,pivot+<span class="number">1</span>,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  ElemType pivot=A[low];</span><br><span class="line">  <span class="keyword">while</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[high]&gt;=pivot) --high;</span><br><span class="line">    A[low]=A[high];</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[low]&lt;=pivot) ++low;</span><br><span class="line">    A[high]=A[low];</span><br><span class="line">  &#125;</span><br><span class="line">  A[low]=pivot;</span><br><span class="line">  <span class="keyword">return</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p><img src="https://i.loli.net/2021/07/28/vS56eJ8OxuBEwhN.gif" alt="v2-c892078dcb61230c6233fc5de4b4aebc_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=len/<span class="number">2</span>;i&gt;<span class="number">0</span>;i--)</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,i,len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[],<span class="keyword">int</span> k,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  A[<span class="number">0</span>]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>*k;i&lt;=len;i*=<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&lt;len&amp;&amp;A[i]&lt;A[i+<span class="number">1</span>])</span><br><span class="line">      i++;</span><br><span class="line">    <span class="keyword">if</span>(A[<span class="number">0</span>]&gt;A[i]) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      A[k]=A[i];</span><br><span class="line">      k=i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  A[k]=A[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeapSort</span><span class="params">(Elemtype A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="built_in">BuildMaxHeap</span>(A,len);</span><br><span class="line">  <span class="keyword">for</span>(i=len;i&gt;<span class="number">1</span>;i--)&#123;</span><br><span class="line">    <span class="built_in">Swap</span>(A[i],A[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,<span class="number">1</span>,i<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><p><img src="https://i.loli.net/2021/07/28/HE2DU8sf5Z1WOLg.gif" alt="v2-86055f604a687cc18e781160bcc8b781_720w.gif"></p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p><img src="https://i.loli.net/2021/07/28/liCLHKy2Tgoc8aG.gif" alt="v2-ab04919ee2dbadd84ad065760b8eb1c9_720w.gif"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> exp = <span class="number">1</span>;	<span class="comment">//exp表示排到第几位了</span></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">buf</span><span class="params">(n)</span></span>;</span><br><span class="line"><span class="keyword">int</span> maxVal = *<span class="built_in">max_element</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (maxVal &gt;= exp) &#123;</span><br><span class="line">  <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">cnt</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    cnt[digit]++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    cnt[i] += cnt[i - <span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;	<span class="comment">//注意是反着来恢复连接的</span></span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    buf[cnt[digit] - <span class="number">1</span>] = nums[i];</span><br><span class="line">    cnt[digit]--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">copy</span>(buf.<span class="built_in">begin</span>(), buf.<span class="built_in">end</span>(), nums.<span class="built_in">begin</span>());</span><br><span class="line">  exp *= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><img src="https://i.loli.net/2021/07/28/gcZVTyI7Uu2w35x.gif" alt="v2-126c359bd98e64c79a2a1db2e829e57b_720w.gif" style="zoom:100%;" />
+
+]]></content>
+  </entry>
+  <entry>
+    <title>李宏毅NLP1:Speech Recgnition</title>
+    <url>/2021/10/25/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP1:Speech%20Recgnition/</url>
+    <content><![CDATA[<h1 id="Speech-Recognition"><a href="#Speech-Recognition" class="headerlink" title="Speech Recognition"></a>Speech Recognition</h1><h2 id="Chapter-One"><a href="#Chapter-One" class="headerlink" title="Chapter One"></a>Chapter One</h2><h3 id="Speech2Text"><a href="#Speech2Text" class="headerlink" title="Speech2Text"></a>Speech2Text</h3><p>Speech: a sequence of vector (length T, dimension d)</p>
+<p>Text: a sequence of token(length N, V different tokens)</p>
+<p>Usually, T &gt; N </p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjes485ej61lo0jo76302.jpg" alt="image-20211025105336856" style="zoom: 33%;" />
+
+<p>So, what is this so-called “Token”?</p>
+<p>Token= Phoneme（音素、音位）/Grapheme （字素、字母）/Morpheme（词素、形态素：意思的最小单位）/Words/ Bytes字节</p>
+<p>Lexicon（词典、辞典）: word to phonemes</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjeuyz1bj613v0u077802.jpg" alt="image-20211025111923860" style="zoom: 33%;" />
+
+<p>英文的字母超过26个，因为起码要包含空格，可能还包含标点符号。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjeww5bxj61460u0mzn02.jpg" alt="image-20211025113011276" style="zoom:33%;" />
+
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjero4m1j61450u040f02.jpg" alt="image-20211025113305303" style="zoom:33%;" />
+
+<p>语音辨识的大趋势：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjewgb3dj61ek0u040202.jpg" alt="image-20211025113522667" style="zoom:25%;" />
+
+<h3 id="Acoustic-Feature"><a href="#Acoustic-Feature" class="headerlink" title="Acoustic Feature"></a>Acoustic Feature</h3><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjeu409yj61420u0tbk02.jpg" alt="image-20211025114523806" style="zoom:33%;" />
+
+<p>一般窗口（window）大小为25ms，采样得到1个frame。每次移动10ms，所以会有重复的部分，1s的语音可以得到100个frame。</p>
+<p>对于16KHz的声音，25ms（1s=1000ms）一个sample，1s有400sample。</p>
+<p> **MFCC(Mel-frequency cepstral coefficients)**：梅尔频率倒谱系数。梅尔频率是基于人耳听觉特性提出来的，它与Hz频率成非线性对应关系。梅尔频率倒谱系数(MFCC)则是利用它们之间的这种关系，计算得到的Hz频谱特征。主要用于语音数据特征提取和降低运算维度。例如：对于一帧有512维(采样点)数据，经过MFCC后可以提取出最重要的40维(一般而言)数据同时也达到了将维的目的。MFCC一般会经过这么几个步骤：预加重，分帧，加窗，快速傅里叶变换(FFT)，梅尔滤波器组，离散余弦变换(DCT).其中最重要的就是FFT和梅尔滤波器组，这两个进行了主要的将维操作。</p>
+<p>现在更多使用<strong>filter bank</strong>得出MFCC。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjevoq4lj61420u0jto02.jpg" alt="image-20211025130310484" style="zoom:33%;" />
+
+<p>spectrogram：声谱图</p>
+<p>filter bank：由哺乳动物器官</p>
+<p>各种技术的应用情况：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjer1idej61lo0jo76302.jpg" alt="image-20211025132015476" style="zoom: 25%;" />
+
+<p>How much data do we need (English corpora) ?</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjeswa62j61ih0u0n1j02.jpg" alt="image-20211025133030622" style="zoom: 33%;" /> 
+
+<p>粉色方框内是常用的语音库，其中TIMIT之于声音就相当于MINST相当于计算机视觉，它是一个很小的库，可以方便初步检测你的构想。</p>
+<p>将MINST和CIFAR-20投影到图中还在TIMIIT之下。</p>
+<p>谷歌等公司的训练数据很大，比这里显示的还大20倍以上。</p>
+<h3 id="Two-points-of-view"><a href="#Two-points-of-view" class="headerlink" title="Two points of view"></a>Two points of view</h3><ul>
+<li>Seq2Seq</li>
+<li>HMM</li>
+</ul>
+<p>19年的趋势：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjetm9lpj61f20tyq4q02.jpg" alt="image-20211025141709059" style="zoom:25%;" />
+
+<h2 id="Chapter-Two"><a href="#Chapter-Two" class="headerlink" title="Chapter Two"></a>Chapter Two</h2><h3 id="LAS-Listen-Attend-and-Spell"><a href="#LAS-Listen-Attend-and-Spell" class="headerlink" title="LAS(Listen, Attend, and Spell)"></a>LAS(Listen, Attend, and Spell)</h3><p>It is the typical seq2seq with attention.</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjeuk7slj61290u0mzm02.jpg" alt="image-20211025142234784" style="zoom: 33%;" />
+
+<h3 id="Listen"><a href="#Listen" class="headerlink" title="Listen"></a>Listen</h3><p>Listen means Encoder!</p>
+<p>Encoder可以采用RNN、CNN、CNN+RNN、以及自注意模型：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjkp1r12j61290u0ac502.jpg" alt="image-20211025143028343" style="zoom:25%;" /><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjmm883bj61460u0dir02.jpg" alt="image-20211025143219587" style="zoom:25%;" /></p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjnzu48rj61360u00wd02.jpg" alt="image-20211025143338379" style="zoom:25%;" />
+
+<h4 id="Down-Sampling"><a href="#Down-Sampling" class="headerlink" title="Down Sampling"></a>Down Sampling</h4><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjt18ne2j612y0u0ju402.jpg" alt="image-20211025143829255" style="zoom:33%;" />
+
+<ul>
+<li><p>Pyramid RNN: 将两个综合起来形成一个</p>
+</li>
+<li><p>Pooling over time: 两个里面选一个</p>
+</li>
+</ul>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrjwx9bm8j61590u042r02.jpg" alt="image-20211025144212858" style="zoom: 33%;" />
+
+<ul>
+<li>TDNN: 和Dilated CNN一样，只是名字不同，4个里面只保留第一个和最后一个</li>
+<li>Truncated Self-attention:只看附近的几个，不然数据太大，照顾不过来</li>
+</ul>
+<h3 id="Attend"><a href="#Attend" class="headerlink" title="Attend"></a>Attend</h3><p>Attention实现方式1：h和z分别乘线性变换矩阵，然后点积求<em><strong>相似度</strong></em>。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrkmdgnbfj615a0u0dif02.jpg" alt="image-20211025150640623" style="zoom:33%;" />
+
+<p>Attention实现方式2：加和，tanh，线性变换</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrkol14irj61120u0tb602.jpg" alt="image-20211025150848599" style="zoom:33%;" />
+
+<h3 id="Spell"><a href="#Spell" class="headerlink" title="Spell"></a>Spell</h3><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrl18mulyj614a0u0gom02.jpg" alt="image-20211025152058278" style="zoom:33%;" />
+
+<p>Spell就是decoder！</p>
+<p>hidden state使用的是RNN网络；$C^0$是encoder网络的输出，也是decoder网络的输入，叫做context vector上下文；根据想要输出的Token的不同，设置不同的输出softmax，这里想以字母为输出单位，输入的是猫，所以第一个字母输出的是“c”，同时softmax的Size V就是26（不考虑空格）。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrl8jnrnrj614t0u041h02.jpg" alt="image-20211025152759773" style="zoom:33%;" />
+
+<p>$z^1$再去做Attention，生成$c^1$；在RNN网络中，第一个生成的字母“c”和encoder生成的$c^1$一起生成“cat”的第二个字母“a”。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrlcsycu8j614t0u0acx02.jpg" alt="image-20211025153204616" style="zoom:33%;" />
+
+<p>最终生成结果如上图，生成了&lt;EOS&gt;所以结束，搜索的时候可以使用束搜索。</p>
+<h3 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h3><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrlrpgtnjj610p0u041q02.jpg" alt="image-20211025154624645" style="zoom:33%;" />
+
+<p>正确输出表示为one-hot向量，遂使用交叉熵cross entropy来训练网络。</p>
+<h4 id="Teacher-Forcing"><a href="#Teacher-Forcing" class="headerlink" title="Teacher Forcing"></a>Teacher Forcing</h4><p>对于本例子的第二个输出字母“a”，它的输出与第一个字母“c”是相关的，但是在训练网络时，我们假设传入第二个RNN的就是“c”的one-hot向量，也就是Use ground truth了。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrlu6v9yzj61310u041m02.jpg" alt="image-20211025154848077" style="zoom:33%;" />
+
+<p>为什么不能用前一个的输出进行训练呢？主要是因为参数一开始是随机的，这样第一个参数训练好以后，可能第二个网络就白训练了，它的系数直接作废。如下图：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrmdeei8gj614f0u0q6102.jpg" alt="image-20211025160715074" style="zoom:33%;" />
+
+<h4 id="Back-to-Attend"><a href="#Back-to-Attend" class="headerlink" title="Back to Attend"></a>Back to Attend</h4><p>Attention有两种方法：一是生成出的Attend用于下次，也可以用于本次。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrmg75rgwj314f0u0jts.jpg" alt="image-20211025160956574" style="zoom:33%;" />
+
+<p>还有一种生成法是既用于本次也用于下次。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrmhmofacj314f0u0jti.jpg" alt="image-20211025161119032" style="zoom:33%;" />
+
+<h4 id="Location-aware-attention"><a href="#Location-aware-attention" class="headerlink" title="Location-aware attention"></a>Location-aware attention</h4><p>防止Attend乱跳，生成第二个token的时候要考虑第一个token生成的$\alpha$。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvrnbvqdy9j316y0u0acw.jpg" alt="image-20211025164023699" style="zoom:33%;" />
+
+<h4 id="Limition-of-LSA"><a href="#Limition-of-LSA" class="headerlink" title="Limition of LSA"></a>Limition of LSA</h4><p>必须待语音全部输入完以后才能输出结果（全部声音序列添加进Encoder），不能边听边输出结果。</p>
+<h2 id="Chapter-Three"><a href="#Chapter-Three" class="headerlink" title="Chapter Three"></a>Chapter Three</h2><h3 id="CTC"><a href="#CTC" class="headerlink" title="CTC"></a>CTC</h3><p>可以做on-line speech recgnization, 所以用uni-directional RNN.</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvsr78l668j311e0u0goo.jpg" alt="image-20211026153953482" style="zoom:33%;" />
+
+<p>由于每个acoustic feature所带信息量太小，一般只有10ms，所以将token size V +1，即可以输出“空”，符号为$\phi$。待前面积累的acoustic feature可以输出token时再输出。</p>
+<p>Input T acoustic feature, output T token, but outputs include $\phi$, remove $\phi$, merge duplicate tokens.</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvsrf2suwgj31m60kqdi4.jpg" alt="image-20211026154725420" style="zoom: 25%;" />
+
+<h4 id="How-to-train"><a href="#How-to-train" class="headerlink" title="How to train"></a>How to train</h4><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvsrhstb4aj30zn0u041t.jpg" alt="image-20211026155002053" style="zoom:33%;" />
+
+<p>需要对每一个frame标注正确的输出结果。那么如何标注呢？</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvt1j0ev83j31os0c2abp.jpg" alt="image-20211026213708688" style="zoom:25%;" />
+
+<p>这种标注叫做alignment。手动地添加“空”。但是“空”的位置有很多种添加方式，选择哪种呢？CTC全都选择！</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvt1mceivuj311k0u0jw2.jpg" alt="image-20211026214024026" style="zoom:33%;" />
+
+<p>CTC很容易“结巴”，原因如下所示，如果一旦中间出现一个空白，就会出现“结巴”。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtvh0wm2uj314d0u00wi.jpg" alt="image-20211027145314876" style="zoom:33%;" />
+
+<h3 id="RNN-Transducer"><a href="#RNN-Transducer" class="headerlink" title="RNN-Transducer"></a>RNN-Transducer</h3><h4 id="RNA"><a href="#RNA" class="headerlink" title="RNA"></a>RNA</h4><p>RNA( Recurrent Neutral Aligner): 优化了CTC“结巴”的问题，在输出token时不再是独立的，而是使用RNN/ LSTM等手段，这样便不会“结巴”，但是对于一个frame输出多个token还没有很好的解决办法，比如输出“th”时，虽然发音是一个，但是要输出两个字母，如何解决？</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtvnxhsmwj315m0u041o.jpg" alt="image-20211027145953600" style="zoom:33%;" />
+
+<h4 id="RNN-T"><a href="#RNN-T" class="headerlink" title="RNN-T"></a>RNN-T</h4><p>RNN-T很好的解决了一个frame输出多个token的问题。它对于一个frame会一直输出，知道出现“空”，“空”代表它需要下一个frame了。</p>
+<p>所以，对于T个acoustic feature，有T个“空”。</p>
+<p>但是RNN-T有alignment的问题，label有多种可能，RNN-T与CTC一样使用所有可能训练网络。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtvrhdfw3j315m0u0n0n.jpg" alt="image-20211027150318589" style="zoom:33%;" />
+
+<p>这里再用一个Language Model（它只看token当作输入）在输出的token基础上生成传递给下一个网络的内容，遇到“空”就忽视。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtwf1abdkj31380u0goz.jpg" alt="image-20211027152556545" style="zoom:33%;" />
+
+<h4 id="Neural-Transducer"><a href="#Neural-Transducer" class="headerlink" title="Neural Transducer"></a>Neural Transducer</h4><p>把多个acoustic feature合成一个window再使用Attention输出。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtwkp0isuj31440u077f.jpg" alt="image-20211027153123104" style="zoom:33%;" />
+
+<h4 id="MoCha"><a href="#MoCha" class="headerlink" title="MoCha"></a>MoCha</h4><p>Monotonic Chunkwise Attention: 可以动态地自选窗口的位置（和大小）</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtwrnwvjij316l0u0wgo.jpg" alt="image-20211027153805384" style="zoom:33%;" />
+
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtwtysys2j313h0u0n1l.jpg" alt="image-20211027154017919" style="zoom:50%;" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
       <categories>
         <category>NLP</category>
       </categories>
       <tags>
         <tag>李宏毅</tag>
+        <tag>Speech Recognition</tag>
       </tags>
   </entry>
   <entry>
-    <title>朴素贝叶斯</title>
-    <url>/2021/10/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</url>
-    <content><![CDATA[<h1 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h1><p>在所有的机器学习分类算法中，朴素贝叶斯和其他绝大多数的分类算法都不同。对于大多数的分类算法，比如决策树,KNN,逻辑回归，支持向量机等，他们都是判别方法，也就是直接学习出特征输出Y和特征X之间的关系，要么是决策函数𝑌=𝑓(𝑋)Y=f(X),要么是条件分布𝑃(𝑌|𝑋)P(Y|X)。但是朴素贝叶斯却是==生成方法==，也就是直接找出特征输出Y和特征X的联合分布𝑃(𝑋,𝑌)P(X,Y),然后用𝑃(𝑌|𝑋)=𝑃(𝑋,𝑌)/𝑃(𝑋)P(Y|X)=P(X,Y)/P(X)得出。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>贝叶斯公式是**==“执果索因”==**：发生了结果，那么哪个原因可能性大？</p>
-<img src="https://pic2.zhimg.com/80/v2-5ea21d9dcaeb14a5a163324b271e05a9_1440w.jpg" alt="img" style="zoom: 50%;" />
+    <title>李宏毅NLP6:NLP tasks</title>
+    <url>/2021/11/05/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP6:NLP%20tasks/</url>
+    <content><![CDATA[<h1 id="NLP-tasks"><a href="#NLP-tasks" class="headerlink" title="NLP tasks"></a>NLP tasks</h1><h2 id="Chapter-One"><a href="#Chapter-One" class="headerlink" title="Chapter One"></a>Chapter One</h2><h3 id="Mutiple-Sentence"><a href="#Mutiple-Sentence" class="headerlink" title="Mutiple Sentence"></a>Mutiple Sentence</h3><p>对于多个句子的输入，我们该怎么办？</p>
+<p>第一种方法：两个句子分别用Model，然后把它们Integrate起来，Integrate的时候可以使用Attention，也就是这个句子生成时参考另外一个句子。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6hytzvxxj30u40n0jt8.jpg" alt="image-20211107125817089" style="zoom:25%;" />
 
-<p>举个简单的例子：村子有且仅有两个小偷，小A和小B，根据统计A偷东西的可能性是0.2,B偷东西的可能性是0.8。如果A去偷，偷成功的概率是0.8， 如果B去偷，偷成功的概率是0.3。如果村子丢了一件东西，A和B谁是嫌疑犯的可能性更大？</p>
-<p>H={丢东西}</p>
-<p>A = {A去偷东西}</p>
-<p>B = {B去偷东西}</p>
-<p>P(A) + P(B) = 1</p>
-<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzcij90j611c0n4jut02.jpg" alt="image-20211024155658056" style="zoom:50%;" />
+<p>第二种方法：把两个句子中间加一个[SEP]分隔开，然后扔到一个Model中。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6hzns2ntj30ua0kkjsi.jpg" alt="image-20211107125908286" style="zoom:25%;" />
 
+<p>所有NLP Tasks：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6i1396r9j312z0u0tby.jpg" alt="image-20211107130029683" style="zoom:33%;" />
 
+<h4 id="POS-Tagging"><a href="#POS-Tagging" class="headerlink" title="POS Tagging"></a>POS Tagging</h4><p>POS: Part of Speech</p>
+<p>就是对一个句子进行词性标注</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6jq059vqj31hq0pead7.jpg" alt="image-20211107135901243" style="zoom:33%;" />
 
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzd1ys1j60pk040q3602.jpg" alt="image-20211024163655561" style="zoom:50%;" />，然后假设各个维度的x相互独立，这样方便计算。</p>
-<p>现在发生了$x^{test}$，是那种$C^k$种类产生的概率比较大？先验+数据（似然），求后验概率，过程如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvqhzdu5coj615y0j60v002.jpg" alt="image-20211024163838725"></p>
-<p>为了计算还会假设离散的样本符合伯努利分布，连续值符合正态分布。</p>
-<p>原文：<a href="https://www.cnblogs.com/pinard/p/6069267.html">https://www.cnblogs.com/pinard/p/6069267.html</a></p>
+<h4 id="Word-Segmentation"><a href="#Word-Segmentation" class="headerlink" title="Word Segmentation"></a>Word Segmentation</h4><p>例如：台湾大学简称台大</p>
+<p>输出N继续输出，输出Y就分词。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6jt5io6fj31dc0u0mzt.jpg" alt="image-20211107140203897" style="zoom:33%;" />
+
+<h4 id="Parsing"><a href="#Parsing" class="headerlink" title="Parsing"></a>Parsing</h4><p>即做句法分析</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6k0187mbj31eo0u0jtt.jpg" alt="image-20211107140840717" style="zoom:33%;" />
+
+<h4 id="Coreference-Resolution"><a href="#Coreference-Resolution" class="headerlink" title="Coreference Resolution"></a>Coreference Resolution</h4><p>指代消解：是指找到文章中相同的代词指代的内容。比如“he”、“she”指代的意思。顾名思义就是将指代词消解。</p>
+<h4 id="Summarization"><a href="#Summarization" class="headerlink" title="Summarization"></a>Summarization</h4><ul>
+<li><p>Extractive summarization: 用文章里的某些句子平凑成一个summary。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6plze1crj31lc0r2414.jpg" alt="image-20211107172246394" style="zoom: 25%;" /></li>
+<li><p>Abstractive summarization：从文章中学习到summary</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6py36v0bj31mm0oqjtm.jpg" alt="image-20211107173424409" style="zoom:25%;" /></li>
+</ul>
+<h4 id="Machine-Translation"><a href="#Machine-Translation" class="headerlink" title="Machine Translation"></a>Machine Translation</h4><img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6r7k7mmjj319t0u0q5v.jpg" alt="image-20211107181801483" style="zoom: 33%;" />
+
+<h4 id="Grammar-Error-Correction"><a href="#Grammar-Error-Correction" class="headerlink" title="Grammar Error Correction"></a>Grammar Error Correction</h4><p>检验句子里的语法错误：一种是使用Seq2Seq模型，一种是对于每个单词输出一种类型：比如R是替换，需要将本单词替换成别的单词。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6rdjsf51j318v0u079a.jpg" alt="image-20211107182348922" style="zoom:33%;" />
+
+<h4 id="Sentiment-Classification"><a href="#Sentiment-Classification" class="headerlink" title="Sentiment Classification"></a>Sentiment Classification</h4><p>输入一段话，判断这段话的情感。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6rlm3vcxj31mw0u0ae3.jpg" alt="image-20211107183134331" style="zoom:33%;" />
+
+<h4 id="Stance-Detection"><a href="#Stance-Detection" class="headerlink" title="Stance Detection"></a>Stance Detection</h4><p>判断Reply对Source的立场。</p>
+<p>一般立场可以分为Support、Denying、Querying、Commenting，所以这类问题又被称为SDQC问题。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6rw74i7rj31k40i440p.jpg" alt="image-20211107184145104" style="zoom:33%;" />
+
+<p>它可以用在Veracity Prediction里面。</p>
+<h4 id="Veracity-Prediction"><a href="#Veracity-Prediction" class="headerlink" title="Veracity Prediction"></a>Veracity Prediction</h4><p>判断一段话是真的还是假的。</p>
+<p>除了原post文，有时还要加上reply，有时还要加上维基百科的相关内容。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw6sc5tqymj317s0cmaat.jpg" alt="image-20211107185706521" style="zoom:33%;" />
+
+<h4 id="NLI"><a href="#NLI" class="headerlink" title="NLI"></a>NLI</h4><p>NLI就是Natural Language Inference：根据一个premise，判断hypothesis。有contradiction（反对）、entailment（蕴含）、neutral（中性）。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7ltlr6a7j314s0u0dkt.jpg" alt="image-20211108115714188" style="zoom:33%;" />
+
+<h4 id="Search-Engine"><a href="#Search-Engine" class="headerlink" title="Search Engine"></a>Search Engine</h4><p>判断搜索内容和一个网页内容的关联度，可以看做输入两个seq，输出一个class。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7m8of9d6j315v0u0juj.jpg" alt="image-20211108121144523" style="zoom:33%;" />
+
+<p>BERT的厉害之处在于它可以识别同一个单词的不同含义。</p>
+<h4 id="Question-Answering"><a href="#Question-Answering" class="headerlink" title="Question Answering"></a>Question Answering</h4><p>Extractive QA：大部分都是提取式的，也就是答案就在文章里。甚至直接输出两个数字，数字间的就是答案。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7n8tusbpj31gz0u0ten.jpg" alt="image-20211108124628759" style="zoom:33%;" />
+
+<h4 id="Dialogue"><a href="#Dialogue" class="headerlink" title="Dialogue"></a>Dialogue</h4><ol>
+<li><p>Chatting</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7nqm6rd2j318e0u0tbh.jpg" alt="image-20211108130335066" style="zoom:33%;" /></li>
+<li><p>Task-oriented</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7ntxdyi0j31fm0u0n3p.jpg" alt="image-20211108130645887" style="zoom:33%;" />
+因为是任务导向的，所以需要规定Model的Action：比如打招呼、入住日、退房日。
+
+ <img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7nvz0ubkj318u0u044d.jpg" alt="image-20211108130843321" style="zoom:33%;" />
+
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7pjnsh16j31400u0ten.jpg" alt="image-20211108140604182" style="zoom:33%;" />
+
+<h4 id="NLU"><a href="#NLU" class="headerlink" title="NLU"></a>NLU</h4><p>NLU就是Natural Language Understanding。</p>
+<ul>
+<li>Intent Classification：给一个seq，让机器将其分类。比如是关于什么事情的。</li>
+<li>Slot Filling：输入一个seq，输出组成该seq的token的label。<img src="/Users/apple/Library/Application Support/typora-user-images/image-20211108141904012.png" alt="image-20211108141904012" style="zoom:33%;" /></li>
+</ul>
+<p>做一个语音输入语音输出的对话模组：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7pz5pz3wj31bm0u00va.jpg" alt="image-20211108142059438" style="zoom:33%;" />
+
+<h4 id="Knowledge-Graph"><a href="#Knowledge-Graph" class="headerlink" title="Knowledge Graph"></a>Knowledge Graph</h4><p>知识图谱：包括entity和relation。</p>
+<p>简化的来说就是：先提取实体，然后提取关系</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7q484grlj31370u0q6j.jpg" alt="image-20211108142550188" style="zoom:33%;" />
+
+<h5 id="Name-Entity-Recognition"><a href="#Name-Entity-Recognition" class="headerlink" title="Name Entity Recognition"></a>Name Entity Recognition</h5><p>Name Entity: usually include: people、organizations、places。具体包括什么取决于具体的任务。</p>
+<p>输入一个Seq，输出class for each token</p>
+<h5 id="Relation-Extraction"><a href="#Relation-Extraction" class="headerlink" title="Relation Extraction"></a>Relation Extraction</h5><p>将原文和想要提取出关系的两个实体输入进去，输出他们的关系。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7s7uas11j31po0joacc.jpg" alt="image-20211108153832836" style="zoom:25%;" />
+
+<h3 id="GLUE"><a href="#GLUE" class="headerlink" title="GLUE"></a>GLUE</h3><p>GLUE：General Language Understanding Evaluation</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw7x3eqgasj31g50u0wlt.jpg" alt="image-20211108182712231" style="zoom:25%;" />
+
+<p>红色是给一个句子判断种类</p>
+<p>绿色是判断两个句子是否是同一个意思</p>
+<p>蓝色是NLI任务</p>
+<p>还有Chinese GLUE</p>
+<p>还有Super GLUE，更难的数据集</p>
+<h3 id="DecaNLP"><a href="#DecaNLP" class="headerlink" title="DecaNLP"></a>DecaNLP</h3><p>有十项任务，期待你用一个模型全部解决。</p>
+</li>
+</ol>
 ]]></content>
       <categories>
-        <category>机器学习</category>
+        <category>NLP</category>
       </categories>
       <tags>
-        <tag>朴素贝叶斯</tag>
-        <tag>数学</tag>
+        <tag>李宏毅</tag>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>李宏毅NLP7:Bert</title>
+    <url>/2021/10/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP7:Bert/</url>
+    <content><![CDATA[<h1 id="Bert"><a href="#Bert" class="headerlink" title="Bert"></a>Bert</h1><h2 id="Chapter-One"><a href="#Chapter-One" class="headerlink" title="Chapter One"></a>Chapter One</h2><p>Bert的思路：首先使用大量text生成（Pre-train）一种具有“读懂”人类语言的model，然后针对不同的NLP任务，使用微调Fine-tune。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtx7fhhbej31440u0dji.jpg" alt="image-20211027155313967" style="zoom:33%;" />
+
+<p>科学家们将语言模型的名字命名成芝麻街里的人物（真的是生搬硬凑…）。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtxc85sonj30rs0mcteb.jpg" alt="img" style="zoom: 50%;" />
+
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtxeuzpzpj313j0u0q97.jpg" alt="image-20211027160022520" style="zoom:33%;" />
+
+<h3 id="What-is-pre-train-model？"><a href="#What-is-pre-train-model？" class="headerlink" title="What is pre-train model？"></a>What is pre-train model？</h3><p>其实在Bert之前就有很多Pre-train模型，比如Word2Vector、GloVe等。</p>
+<p>对于Word2Vector Pre-train模型，每输入一个Word都会返回一个向量，缺点就是对于处在不同上下文的同一个词，输出的结果WordEmbedding vector 是一样的，这样并不好。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtxq906mnj30s60qcdgx.jpg" alt="image-20211027161119424" style="zoom:25%;" />
+
+<p>英语中的Word是非常多的，想把所有的word都有对应的vector几乎是不可能的，而FastText模型可以读入字母来判断word含义。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvty5b29u0j30o60jyq3t.jpg" alt="image-20211027162547845" style="zoom:25%;" />
+
+<p>鉴于中文的象形字，可以使用CNN进行识别。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu29yu3rej30t20qs75v.jpg" alt="image-20211027184834802" style="zoom: 25%;" />
+
+<p>Contextualized word embedding（上下文的，即可以分别同一个word的不同意思），比如Bert，它是首先观察整个上下文，再返回word 的vector。</p>
+<p>而bert等模型一直在变大，只能大公司使用和训练，我们“穷人”要做的就是让它们变小。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu2ncv7vkj31540u0n1e.jpg" alt="image-20211027190130144" style="zoom:25%;" />
+
+
+
+
+
+<h3 id="How-to-pre-train"><a href="#How-to-pre-train" class="headerlink" title="How to pre-train?"></a>How to pre-train?</h3><p>架构为：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu2v3gr43j31610u0jtx.jpg" alt="image-20211027190856616" style="zoom:33%;" />
+
+<h4 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h4><p>分为两种：单句子和多句子，多句子（比如QA问题）需要在句子之间添加[SEP]分隔符。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu2y45o7jj31210u0q57.jpg" alt="image-20211027191150714" style="zoom:33%;" />
+
+<h4 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h4><p>输出分为四种：</p>
+<ol>
+<li><p>One class:</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu361wl97j30u00xbwgg.jpg" alt="image-20211027191928417" style="zoom:25%;" />
+有两种输出方式，一种是是直接输出整个句子的结果，另一种是分别输出句子中单词的word vector然后再加一层网络输出结果。</li>
+<li><p>Class for each token：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3i7rocbj30u00zmgnf.jpg" alt="image-20211027193109874" style="zoom:25%;" />
+给每一个token一个class就可以了，可以用LSTM等网络</li>
+<li><p>Copy from input：<br>比如extraction-based QA: Document &amp; Query</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3kpu5q9j31qq0smgrp.jpg" alt="image-20211027193333019" style="zoom:25%;" />
+输出是两个整数，即原文的两个单词位置，输出他们之间的句子。
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3q5wa8wj318l0u00vy.jpg" alt="image-20211027193848141" style="zoom:25%;" /></li>
+<li><p>General sequence：<br>可以把Bert当做Encoder，在加一个具体任务的Decoder来产生Seq2Seq模型。<br>但是这样的话，Decoder相当于没有pre-train过，所以要让Decoder尽量小一点，对结果的影响小一点。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3z86lbaj31o00tead7.jpg" alt="image-20211027194731158" style="zoom:25%;" />
+除此之外还有一种做法：
+
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu9p8wdaej313m0u00vf.jpg" alt="image-20211027230530545" style="zoom:25%;" />
+
+<p>待输入到[SEP]以后，再开始输出一些列的sequence。这样相当于把pre-trained的Model当做了decoder来使用。</p>
+</li>
+</ol>
+<h3 id="How-to-fine-tune"><a href="#How-to-fine-tune" class="headerlink" title="How to fine-tune?"></a>How to fine-tune?</h3><p>Fine-tune有两种基本的方式：一种只微调task-specific，不动bert，另外一种将bert与task-specific合在一起微调。一般后者效果更好一点。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu9zdo4rlj312t0u0acv.jpg" alt="image-20211027231515279" style="zoom:33%;" />
+
+<h4 id="Adapter"><a href="#Adapter" class="headerlink" title="Adapter"></a>Adapter</h4><p>虽然后者效果好一些，但是涉及到的参数太多，不好调整。这时我们可以将模型里的一层拿出来，只调整这一层，叫Adapter，同时也方便了模型的保存，大部分不变，每个模型只保存Adapter层的参数就好。</p>
+<p>Pre-trained的时候没有Adapter，fine-tune的时候才有。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvua67xr1sj319a0u0q6k.jpg" alt="image-20211027232149745" style="zoom: 33%;" />
+
+<h4 id="Weighted-Layer"><a href="#Weighted-Layer" class="headerlink" title="Weighted Layer"></a>Weighted Layer</h4><p>对于Bert等模型的输出的最后两层，可能提取了不同的特征，我们可以用$w_1x_1+w_2x_2$的形式进行加权求和，其中$w_1, w_2$可以当做Task Specific的参数进行学习。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvualrzs5mj313f0u00v0.jpg" alt="image-20211027233647170" style="zoom:33%;" />
+
+<h2 id="Chapter-Two"><a href="#Chapter-Two" class="headerlink" title="Chapter Two"></a>Chapter Two</h2><h3 id="Self-supervised-Learning"><a href="#Self-supervised-Learning" class="headerlink" title="Self-supervised Learning"></a>Self-supervised Learning</h3><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvur68752fj31g20l6409.jpg" alt="image-20211028091002931" style="zoom:33%;" />
+
+<p>自监督学习是一种不需要label的训练方式，以前叫UNsupervised，现在改名字了。</p>
+<h3 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h3><p>第一种方法是以预测下一个token的方式进行自监督学习。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvur9iafmij312p0u0di5.jpg" alt="image-20211028091312448" style="zoom:33%;" />
+
+<p>一个使用LSTM的自监督学习LM是ELMo：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvurc0onvnj31600u077k.jpg" alt="image-20211028091537312" style="zoom:33%;" />
+
+<p>另一些使用self-attendtion的自监督学习模型，如GPT等。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvurejkrosj31600u0tc1.jpg" alt="image-20211028091802989" style="zoom:33%;" />
+
+<p>这种self-attention需要注意让该模型不可以偷看到后面的答案，因为self-Attention模型是首先输入整个seq，然后根据注意力一个个输出token的。如上图所示，$w_2$只可以看$w_1, w_2$，不可以看$w_3$，否则模型就会学会直接将下一个词的向量拿来输出，这样毫无意义。</p>
+<h3 id="Why？"><a href="#Why？" class="headerlink" title="Why？"></a>Why？</h3><p>为什么预测下一个词就可以让神经网络学会词的含义呢？因为那句经典的，词的意思由它周围的词决定。</p>
+<p>下图中$w_4$只由它前面的词决定，那它右边的词对他的影响呢？</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvurrdestlj311m0u0mzp.jpg" alt="image-20211028093021037" style="zoom:33%;" />
+
+<h3 id="ELMo"><a href="#ELMo" class="headerlink" title="ELMo"></a>ELMo</h3><p>ELMo模型就考虑了左右两个方向的上下文，对于一个词$w_4$，由一个左向的vector和一个右向的vector共同描述。但这样也有一个问题：左向量在生成的时候不会考虑右向量。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuru6ej8oj30z40u040p.jpg" alt="image-20211028093303747" style="zoom:33%;" />
+
+<h3 id="Bert-1"><a href="#Bert-1" class="headerlink" title="Bert"></a>Bert</h3><p>Bert就可以兼顾左右两边的vector，它采用扣词的办法，把一个句子里的某个词用[MASK]标志隐藏掉，或者使用随机的token替换掉。这样的模型的Attendtion整个句子的。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuso4jyanj313n0u0goc.jpg" alt="image-20211028100148962" style="zoom:33%;" />
+
+<h4 id="Masking-Input"><a href="#Masking-Input" class="headerlink" title="Masking Input"></a>Masking Input</h4><p>Whole Word Masking( WWM)：顾名思义，就是每次盖住一个whole word</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvutxqww1rj31s80lajwt.jpg" alt="image-20211028104541957" style="zoom: 33%;" />
+
+<p>Phrase-level &amp; Entity-level: entity就是NER中的entity，需要一个named entity recognition Model配合完成，比较著名的有ERNIE。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvutzv2sa7j31bi0buwfu.jpg" alt="image-20211028104744062" style="zoom:25%;" />
+
+<h4 id="SpanBert"><a href="#SpanBert" class="headerlink" title="SpanBert"></a>SpanBert</h4><p>SpanBert是根据不同概率遮住不同长度的word，效果还算可以：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuul03tkxj316w0u0adm.jpg" alt="image-20211028110803353" style="zoom:33%;" />
+
+<p>有一种SBO（Span Boundary Objective）的方法来训练SpanBert，试图用Span两边的vector和一个数字（表示要预测的词的位置）来预测该词，好像很匪夷所思，但是在conference里有很大应用：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuv1w99q9j31410u076i.jpg" alt="image-20211028112416986" style="zoom:33%;" />
+
+<h4 id="Bert不善言辞？"><a href="#Bert不善言辞？" class="headerlink" title="Bert不善言辞？"></a>Bert不善言辞？</h4><p>Bert模型被设计用来填空，即[MASK]，所以可以认为他不善言辞，不擅长generation，即无法生成sequence语句，做seq2seq的pre-trained Model效果不是很好。当然，这仅限于autoregressive model（即从左到右书写的模型），如果是两边向中间生成的，Bert说不定就很擅长了。 </p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuvcouu77j31km0u00vu.jpg" alt="image-20211028113439637" style="zoom:33%;" />
+
+<h4 id="MASS-BART"><a href="#MASS-BART" class="headerlink" title="MASS/BART"></a>MASS/BART</h4><p>对于Seq2Seq的，我们要输入一句话然后让Bert可以输出该句话，为了防止直接输出，我们要破坏输入的句子。</p>
+<p>以下是几种破坏的方法：</p>
+<p>MASS: MAsked Sequence to Sequence pre-training</p>
+<p>BART: Bidirectional and Auto-Regressive Transformer</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuvsnlvi3j314d0u0acu.jpg" alt="image-20211028114959804" style="zoom:33%;" />
+
+<p>MASS就是随机盖住一个词，BART有很多方法，其中Text Infilling效果最好。</p>
+<p>Text Infilling就是可以在没有词的地方假装盖住，让模型发现这里没有词，或者一次盖住很多个词，让模型全部补全，或者两者混用。</p>
+<p>而Permutation和Rotation效果都很不好，因为他们破坏了模型对句子的认知，模型见到的全是乱七八糟的句子，很难学会什么东西。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuvw07k8uj31pa0momzj.jpg" alt="image-20211028115313417" style="zoom:25%;" />
+
+<h4 id="UniLM"><a href="#UniLM" class="headerlink" title="UniLM"></a>UniLM</h4><p>一个神奇的Model，它即可作为Encoder也可作为Decoder，也可以作为Encoder+Decoder（即Seq2Seq）。</p>
+<p>他可以作为Bert或者GPT（此时只能Attendtion左边的token）或者BART/MASS。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvv0tn7m9nj315e0u0dld.jpg" alt="image-20211028144355962" style="zoom:33%;" />
+
+<h4 id="ELECTRA"><a href="#ELECTRA" class="headerlink" title="ELECTRA"></a>ELECTRA</h4><p>ELECTRA用一个small bert输出一个句子，该句子包含一个由small bert篡改的token的句子，然后ELECTRA去句子里抓住这个token。small bert水平不要太好，不然生成的token和原token一样就没法训练ELECTRA了。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvv15ix4dkj30u00yttap.jpg" alt="image-20211028145521973" style="zoom:33%;" />
+
+<p>效果出奇的好，只需要四分之一的数据就能达到和其他主流模型一样的分数。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvv16uh0i9j31sr0u0tcd.jpg" alt="image-20211028145638008" style="zoom:33%;" />
+
+<h4 id="Sentence-Level-Embedding-Vector"><a href="#Sentence-Level-Embedding-Vector" class="headerlink" title="Sentence-Level Embedding Vector"></a>Sentence-Level Embedding Vector</h4><img src="https://tva1.sinaimg.cn/large/008i3skNly1gw4cg9ts79j314c0u00vo.jpg" alt="image-20211105161616129" style="zoom:33%;" />
+
+<p>句子级别的嵌入向量，与word embedding类似，是sentence embedding。</p>
+<p><strong>Skip Thought</strong>：输入这个句子，预测下一个句子。运算速度很慢，对性能要求很高。</p>
+<p><strong>Quick Thought：</strong>对每一个句子都是走一遍Encoder，然后用返回的Sentence embedding计算similarity。</p>
+<p>在原始的Bert训练中，有两种任务：</p>
+<ol>
+<li>NSP: Next Sentence Prediction. 判断[SEP]后面的是不是本句子的下一个句子，效果较差。用在RoBERTa中。<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw4d0ualzhj31280m0myl.jpg" alt="image-20211105163604978" style="zoom:33%;" /></li>
+<li>SOP: Sentence Order Prediction. 判断这两个句子的顺序是否颠倒。用在AlBERT和structBERT(Alice)中。</li>
+</ol>
+<h3 id="ERNIE"><a href="#ERNIE" class="headerlink" title="ERNIE"></a>ERNIE</h3><p>BERT加上external knowledge就进化成了ERNIE。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw4d6rrxh1j31k70u0afj.jpg" alt="image-20211105164145380" style="zoom:25%;" />
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>李宏毅</tag>
+        <tag>Bert</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>词嵌入3：基于词向量的固定表征</title>
+    <url>/2021/10/24/WordEmbedding3:Fixed%20representation%20based%20on%20word%20vector/</url>
+    <content><![CDATA[<h1 id="基于词向量的固定表征"><a href="#基于词向量的固定表征" class="headerlink" title="基于词向量的固定表征"></a>基于词向量的固定表征</h1><h2 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h2>]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>词向量</tag>
+        <tag>GloVe</tag>
+        <tag>Word2Vector</tag>
       </tags>
   </entry>
   <entry>
@@ -341,67 +951,5 @@
         <tag>动态规划</tag>
         <tag>背包问题</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>排序</title>
-    <url>/2021/05/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<img src="https://i.loli.net/2021/07/28/9j2c8MsQCd7GhqW.png" alt="image.png" style="zoom:80%;" />
-
-<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p><img src="https://i.loli.net/2021/07/28/58muPeCEJsRXvao.gif" alt="v2-62b35f38b9806cb2e50c7e4ee0ec3386_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BubbleSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(j=n<span class="number">-1</span>;j&gt;i;j--)&#123;</span><br><span class="line">      <span class="keyword">if</span>(A[j<span class="number">-1</span>]&gt;A[j])&#123;</span><br><span class="line">        <span class="built_in">swap</span>(A[j<span class="number">-1</span>],A[j]);</span><br><span class="line">        flag=<span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag==<span class="literal">false</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="选择排序法"><a href="#选择排序法" class="headerlink" title="选择排序法"></a>选择排序法</h2><p><img src="https://i.loli.net/2021/07/28/rxCE7jPqwzkJsvi.gif" alt="v2-c5e176ffc200c8f4f137e732fe860b60_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SelectSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    min=i;</span><br><span class="line">    <span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;n;j++)</span><br><span class="line">      <span class="keyword">if</span>(A[j]&lt;A[min]) min=j;</span><br><span class="line">    <span class="keyword">if</span>(min!=i) </span><br><span class="line">      <span class="built_in">swap</span>(A[i],A[min]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="插入排序法"><a href="#插入排序法" class="headerlink" title="插入排序法"></a>插入排序法</h2><p><img src="https://i.loli.net/2021/07/28/9k8UFYowPH4Q2jD.gif" alt="v2-38d6f9c006e3fdb24ffd82a58c39ca92_720w.gif"></p>
-<h3 id="直接插入法"><a href="#直接插入法" class="headerlink" title="直接插入法"></a>直接插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;	</span><br><span class="line">  <span class="keyword">int</span> i,j;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;A[<span class="number">0</span>]&lt;A[j];--j)&#123;</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    &#125;</span><br><span class="line">    A[j+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="折半插入法"><a href="#折半插入法" class="headerlink" title="折半插入法"></a>折半插入法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i,j,low,high,mid;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    A[<span class="number">0</span>]=A[i];</span><br><span class="line">    low=<span class="number">1</span>;high=i<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;=high)&#123;</span><br><span class="line">      mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">      <span class="keyword">if</span>(A[mid]&gt;A[<span class="number">0</span>]) high=mid<span class="number">-1</span>;</span><br><span class="line">      <span class="keyword">else</span> low=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(j=i<span class="number">-1</span>;j&gt;=high+<span class="number">1</span>;--j)</span><br><span class="line">      A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">    A[high+<span class="number">1</span>]=A[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="希尔排序法-缩小增量排序"><a href="#希尔排序法-缩小增量排序" class="headerlink" title="希尔排序法/缩小增量排序"></a>希尔排序法/缩小增量排序</h2><p><img src="https://i.loli.net/2021/07/28/avz8JiowZNMb6Ck.gif" alt="v2-924c253a0ce18b65eb5d590699c8773b_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShellSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(dk=n/<span class="number">2</span>;dk&gt;=<span class="number">1</span>;dk/=<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span>(i=dk+<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">      <span class="keyword">if</span>(A[i]&lt;A[i-dk])&#123;</span><br><span class="line">        A[<span class="number">0</span>]=A[i];</span><br><span class="line">        <span class="keyword">for</span>(j=i-dk;j&gt;<span class="number">0</span>&amp;&amp;A[<span class="number">0</span>]&lt;A[j];j-=dk)</span><br><span class="line">          A[j+dk]=A[j];</span><br><span class="line">        A[j+dk]=A[<span class="number">0</span>];</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><img src="https://i.loli.net/2021/07/28/OgrIWpRxiEhLzP2.gif" alt="v2-ed06651ca489ff4454e9889ca0d753db_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ElemType *B=(ElemType *)<span class="built_in">malloc</span>((n+<span class="number">1</span>)*<span class="built_in"><span class="keyword">sizeof</span></span>(ElemType));</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Merge</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> mid,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> k=low;k&lt;=high;k++)</span><br><span class="line">    B[k]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=low,j=mid+<span class="number">1</span>,k=i;i&lt;=mid&amp;&amp;j&lt;=high;k++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(B[i]&lt;=B[j])</span><br><span class="line">      A[k]=B[i++];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      A[k]=B[j++];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;=mid) A[k++]=B[i++];</span><br><span class="line">  <span class="keyword">while</span>(j&lt;=high) A[k++]=B[j++];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,low,mid);</span><br><span class="line">    <span class="built_in">MergeSort</span>(A,mid+<span class="number">1.</span>high);</span><br><span class="line">    <span class="built_in">Merge</span>(A,low,mid,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="快速排序法"><a href="#快速排序法" class="headerlink" title="快速排序法"></a>快速排序法</h2><p><img src="https://i.loli.net/2021/07/28/EiQ9IC1hTcsSdOX.gif" alt="v2-e30a1dcb54af5e222243d8053d3a5a0d_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QuickSort</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">int</span> pivotpos=<span class="built_in">Partition</span>(A,low,high);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,low,pivotpos<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">QuickSort</span>(A,pivot+<span class="number">1</span>,high);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(ElemType A[],<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">  ElemType pivot=A[low];</span><br><span class="line">  <span class="keyword">while</span>(low&lt;high)&#123;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[high]&gt;=pivot) --high;</span><br><span class="line">    A[low]=A[high];</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high&amp;&amp;A[low]&lt;=pivot) ++low;</span><br><span class="line">    A[high]=A[low];</span><br><span class="line">  &#125;</span><br><span class="line">  A[low]=pivot;</span><br><span class="line">  <span class="keyword">return</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p><img src="https://i.loli.net/2021/07/28/vS56eJ8OxuBEwhN.gif" alt="v2-c892078dcb61230c6233fc5de4b4aebc_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BuildMaxHeap</span><span class="params">(ElemType A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=len/<span class="number">2</span>;i&gt;<span class="number">0</span>;i--)</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,i,len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeadAdjust</span><span class="params">(ElemType A[],<span class="keyword">int</span> k,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  A[<span class="number">0</span>]=A[k];</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">2</span>*k;i&lt;=len;i*=<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&lt;len&amp;&amp;A[i]&lt;A[i+<span class="number">1</span>])</span><br><span class="line">      i++;</span><br><span class="line">    <span class="keyword">if</span>(A[<span class="number">0</span>]&gt;A[i]) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      A[k]=A[i];</span><br><span class="line">      k=i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  A[k]=A[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HeapSort</span><span class="params">(Elemtype A[],<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">  <span class="built_in">BuildMaxHeap</span>(A,len);</span><br><span class="line">  <span class="keyword">for</span>(i=len;i&gt;<span class="number">1</span>;i--)&#123;</span><br><span class="line">    <span class="built_in">Swap</span>(A[i],A[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">HeadAdjust</span>(A,<span class="number">1</span>,i<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><p><img src="https://i.loli.net/2021/07/28/HE2DU8sf5Z1WOLg.gif" alt="v2-86055f604a687cc18e781160bcc8b781_720w.gif"></p>
-<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p><img src="https://i.loli.net/2021/07/28/liCLHKy2Tgoc8aG.gif" alt="v2-ab04919ee2dbadd84ad065760b8eb1c9_720w.gif"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> exp = <span class="number">1</span>;	<span class="comment">//exp表示排到第几位了</span></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">buf</span><span class="params">(n)</span></span>;</span><br><span class="line"><span class="keyword">int</span> maxVal = *<span class="built_in">max_element</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (maxVal &gt;= exp) &#123;</span><br><span class="line">  <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">cnt</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    cnt[digit]++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    cnt[i] += cnt[i - <span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;	<span class="comment">//注意是反着来恢复连接的</span></span><br><span class="line">    <span class="keyword">int</span> digit = (nums[i] / exp) % <span class="number">10</span>;</span><br><span class="line">    buf[cnt[digit] - <span class="number">1</span>] = nums[i];</span><br><span class="line">    cnt[digit]--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">copy</span>(buf.<span class="built_in">begin</span>(), buf.<span class="built_in">end</span>(), nums.<span class="built_in">begin</span>());</span><br><span class="line">  exp *= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><img src="https://i.loli.net/2021/07/28/gcZVTyI7Uu2w35x.gif" alt="v2-126c359bd98e64c79a2a1db2e829e57b_720w.gif" style="zoom:100%;" />
-
-]]></content>
   </entry>
 </search>
