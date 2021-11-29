@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>李宏毅NLP7:Bert | JfyhDcm's Blog</title><meta name="keywords" content="李宏毅,Bert"><meta name="author" content="JfyhDcm"><meta name="copyright" content="JfyhDcm"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="BertChapter OneBert的思路：首先使用大量text生成（Pre-train）一种具有“读懂”人类语言的model，然后针对不同的NLP任务，使用微调Fine-tune。   科学家们将语言模型的名字命名成芝麻街里的人物（真的是生搬硬凑…）。     What is pre-train model？其实在Bert之前就有很多Pre-train模型，比如Word2Vector、GloV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="李宏毅NLP7:Bert">
+<meta property="og:url" content="https://jfyhdcm.github.io/2021/10/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP7:Bert/index.html">
+<meta property="og:site_name" content="JfyhDcm&#39;s Blog">
+<meta property="og:description" content="BertChapter OneBert的思路：首先使用大量text生成（Pre-train）一种具有“读懂”人类语言的model，然后针对不同的NLP任务，使用微调Fine-tune。   科学家们将语言模型的名字命名成芝麻街里的人物（真的是生搬硬凑…）。     What is pre-train model？其实在Bert之前就有很多Pre-train模型，比如Word2Vector、GloV">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg">
+<meta property="article:published_time" content="2021-10-27T07:43:15.186Z">
+<meta property="article:modified_time" content="2021-11-05T08:42:11.112Z">
+<meta property="article:author" content="JfyhDcm">
+<meta property="article:tag" content="李宏毅">
+<meta property="article:tag" content="Bert">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg"><link rel="shortcut icon" href="/img/dragon.png"><link rel="canonical" href="https://jfyhdcm.github.io/2021/10/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP7:Bert/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '李宏毅NLP7:Bert',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-11-05 16:42:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/ava.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">23</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">JfyhDcm's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">李宏毅NLP7:Bert</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-10-27T07:43:15.186Z" title="Created 2021-10-27 15:43:15">2021-10-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-11-05T08:42:11.112Z" title="Updated 2021-11-05 16:42:11">2021-11-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/NLP/">NLP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="李宏毅NLP7:Bert"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Bert"><a href="#Bert" class="headerlink" title="Bert"></a>Bert</h1><h2 id="Chapter-One"><a href="#Chapter-One" class="headerlink" title="Chapter One"></a>Chapter One</h2><p>Bert的思路：首先使用大量text生成（Pre-train）一种具有“读懂”人类语言的model，然后针对不同的NLP任务，使用微调Fine-tune。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtx7fhhbej31440u0dji.jpg" alt="image-20211027155313967" style="zoom:33%;" />
+
+<p>科学家们将语言模型的名字命名成芝麻街里的人物（真的是生搬硬凑…）。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtxc85sonj30rs0mcteb.jpg" alt="img" style="zoom: 50%;" />
+
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtxeuzpzpj313j0u0q97.jpg" alt="image-20211027160022520" style="zoom:33%;" />
+
+<h3 id="What-is-pre-train-model？"><a href="#What-is-pre-train-model？" class="headerlink" title="What is pre-train model？"></a>What is pre-train model？</h3><p>其实在Bert之前就有很多Pre-train模型，比如Word2Vector、GloVe等。</p>
+<p>对于Word2Vector Pre-train模型，每输入一个Word都会返回一个向量，缺点就是对于处在不同上下文的同一个词，输出的结果WordEmbedding vector 是一样的，这样并不好。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvtxq906mnj30s60qcdgx.jpg" alt="image-20211027161119424" style="zoom:25%;" />
+
+<p>英语中的Word是非常多的，想把所有的word都有对应的vector几乎是不可能的，而FastText模型可以读入字母来判断word含义。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvty5b29u0j30o60jyq3t.jpg" alt="image-20211027162547845" style="zoom:25%;" />
+
+<p>鉴于中文的象形字，可以使用CNN进行识别。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu29yu3rej30t20qs75v.jpg" alt="image-20211027184834802" style="zoom: 25%;" />
+
+<p>Contextualized word embedding（上下文的，即可以分别同一个word的不同意思），比如Bert，它是首先观察整个上下文，再返回word 的vector。</p>
+<p>而bert等模型一直在变大，只能大公司使用和训练，我们“穷人”要做的就是让它们变小。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu2ncv7vkj31540u0n1e.jpg" alt="image-20211027190130144" style="zoom:25%;" />
+
+
+
+
+
+<h3 id="How-to-pre-train"><a href="#How-to-pre-train" class="headerlink" title="How to pre-train?"></a>How to pre-train?</h3><p>架构为：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu2v3gr43j31610u0jtx.jpg" alt="image-20211027190856616" style="zoom:33%;" />
+
+<h4 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h4><p>分为两种：单句子和多句子，多句子（比如QA问题）需要在句子之间添加[SEP]分隔符。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu2y45o7jj31210u0q57.jpg" alt="image-20211027191150714" style="zoom:33%;" />
+
+<h4 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h4><p>输出分为四种：</p>
+<ol>
+<li><p>One class:</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu361wl97j30u00xbwgg.jpg" alt="image-20211027191928417" style="zoom:25%;" />
+有两种输出方式，一种是是直接输出整个句子的结果，另一种是分别输出句子中单词的word vector然后再加一层网络输出结果。</li>
+<li><p>Class for each token：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3i7rocbj30u00zmgnf.jpg" alt="image-20211027193109874" style="zoom:25%;" />
+给每一个token一个class就可以了，可以用LSTM等网络</li>
+<li><p>Copy from input：<br>比如extraction-based QA: Document &amp; Query</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3kpu5q9j31qq0smgrp.jpg" alt="image-20211027193333019" style="zoom:25%;" />
+输出是两个整数，即原文的两个单词位置，输出他们之间的句子。
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3q5wa8wj318l0u00vy.jpg" alt="image-20211027193848141" style="zoom:25%;" /></li>
+<li><p>General sequence：<br>可以把Bert当做Encoder，在加一个具体任务的Decoder来产生Seq2Seq模型。<br>但是这样的话，Decoder相当于没有pre-train过，所以要让Decoder尽量小一点，对结果的影响小一点。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu3z86lbaj31o00tead7.jpg" alt="image-20211027194731158" style="zoom:25%;" />
+除此之外还有一种做法：
+
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu9p8wdaej313m0u00vf.jpg" alt="image-20211027230530545" style="zoom:25%;" />
+
+<p>待输入到[SEP]以后，再开始输出一些列的sequence。这样相当于把pre-trained的Model当做了decoder来使用。</p>
+</li>
+</ol>
+<h3 id="How-to-fine-tune"><a href="#How-to-fine-tune" class="headerlink" title="How to fine-tune?"></a>How to fine-tune?</h3><p>Fine-tune有两种基本的方式：一种只微调task-specific，不动bert，另外一种将bert与task-specific合在一起微调。一般后者效果更好一点。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu9zdo4rlj312t0u0acv.jpg" alt="image-20211027231515279" style="zoom:33%;" />
+
+<h4 id="Adapter"><a href="#Adapter" class="headerlink" title="Adapter"></a>Adapter</h4><p>虽然后者效果好一些，但是涉及到的参数太多，不好调整。这时我们可以将模型里的一层拿出来，只调整这一层，叫Adapter，同时也方便了模型的保存，大部分不变，每个模型只保存Adapter层的参数就好。</p>
+<p>Pre-trained的时候没有Adapter，fine-tune的时候才有。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvua67xr1sj319a0u0q6k.jpg" alt="image-20211027232149745" style="zoom: 33%;" />
+
+<h4 id="Weighted-Layer"><a href="#Weighted-Layer" class="headerlink" title="Weighted Layer"></a>Weighted Layer</h4><p>对于Bert等模型的输出的最后两层，可能提取了不同的特征，我们可以用$w_1x_1+w_2x_2$的形式进行加权求和，其中$w_1, w_2$可以当做Task Specific的参数进行学习。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvualrzs5mj313f0u00v0.jpg" alt="image-20211027233647170" style="zoom:33%;" />
+
+<h2 id="Chapter-Two"><a href="#Chapter-Two" class="headerlink" title="Chapter Two"></a>Chapter Two</h2><h3 id="Self-supervised-Learning"><a href="#Self-supervised-Learning" class="headerlink" title="Self-supervised Learning"></a>Self-supervised Learning</h3><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvur68752fj31g20l6409.jpg" alt="image-20211028091002931" style="zoom:33%;" />
+
+<p>自监督学习是一种不需要label的训练方式，以前叫UNsupervised，现在改名字了。</p>
+<h3 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h3><p>第一种方法是以预测下一个token的方式进行自监督学习。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvur9iafmij312p0u0di5.jpg" alt="image-20211028091312448" style="zoom:33%;" />
+
+<p>一个使用LSTM的自监督学习LM是ELMo：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvurc0onvnj31600u077k.jpg" alt="image-20211028091537312" style="zoom:33%;" />
+
+<p>另一些使用self-attendtion的自监督学习模型，如GPT等。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvurejkrosj31600u0tc1.jpg" alt="image-20211028091802989" style="zoom:33%;" />
+
+<p>这种self-attention需要注意让该模型不可以偷看到后面的答案，因为self-Attention模型是首先输入整个seq，然后根据注意力一个个输出token的。如上图所示，$w_2$只可以看$w_1, w_2$，不可以看$w_3$，否则模型就会学会直接将下一个词的向量拿来输出，这样毫无意义。</p>
+<h3 id="Why？"><a href="#Why？" class="headerlink" title="Why？"></a>Why？</h3><p>为什么预测下一个词就可以让神经网络学会词的含义呢？因为那句经典的，词的意思由它周围的词决定。</p>
+<p>下图中$w_4$只由它前面的词决定，那它右边的词对他的影响呢？</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvurrdestlj311m0u0mzp.jpg" alt="image-20211028093021037" style="zoom:33%;" />
+
+<h3 id="ELMo"><a href="#ELMo" class="headerlink" title="ELMo"></a>ELMo</h3><p>ELMo模型就考虑了左右两个方向的上下文，对于一个词$w_4$，由一个左向的vector和一个右向的vector共同描述。但这样也有一个问题：左向量在生成的时候不会考虑右向量。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuru6ej8oj30z40u040p.jpg" alt="image-20211028093303747" style="zoom:33%;" />
+
+<h3 id="Bert-1"><a href="#Bert-1" class="headerlink" title="Bert"></a>Bert</h3><p>Bert就可以兼顾左右两边的vector，它采用扣词的办法，把一个句子里的某个词用[MASK]标志隐藏掉，或者使用随机的token替换掉。这样的模型的Attendtion整个句子的。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuso4jyanj313n0u0goc.jpg" alt="image-20211028100148962" style="zoom:33%;" />
+
+<h4 id="Masking-Input"><a href="#Masking-Input" class="headerlink" title="Masking Input"></a>Masking Input</h4><p>Whole Word Masking( WWM)：顾名思义，就是每次盖住一个whole word</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvutxqww1rj31s80lajwt.jpg" alt="image-20211028104541957" style="zoom: 33%;" />
+
+<p>Phrase-level &amp; Entity-level: entity就是NER中的entity，需要一个named entity recognition Model配合完成，比较著名的有ERNIE。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvutzv2sa7j31bi0buwfu.jpg" alt="image-20211028104744062" style="zoom:25%;" />
+
+<h4 id="SpanBert"><a href="#SpanBert" class="headerlink" title="SpanBert"></a>SpanBert</h4><p>SpanBert是根据不同概率遮住不同长度的word，效果还算可以：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuul03tkxj316w0u0adm.jpg" alt="image-20211028110803353" style="zoom:33%;" />
+
+<p>有一种SBO（Span Boundary Objective）的方法来训练SpanBert，试图用Span两边的vector和一个数字（表示要预测的词的位置）来预测该词，好像很匪夷所思，但是在conference里有很大应用：</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuv1w99q9j31410u076i.jpg" alt="image-20211028112416986" style="zoom:33%;" />
+
+<h4 id="Bert不善言辞？"><a href="#Bert不善言辞？" class="headerlink" title="Bert不善言辞？"></a>Bert不善言辞？</h4><p>Bert模型被设计用来填空，即[MASK]，所以可以认为他不善言辞，不擅长generation，即无法生成sequence语句，做seq2seq的pre-trained Model效果不是很好。当然，这仅限于autoregressive model（即从左到右书写的模型），如果是两边向中间生成的，Bert说不定就很擅长了。 </p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuvcouu77j31km0u00vu.jpg" alt="image-20211028113439637" style="zoom:33%;" />
+
+<h4 id="MASS-BART"><a href="#MASS-BART" class="headerlink" title="MASS/BART"></a>MASS/BART</h4><p>对于Seq2Seq的，我们要输入一句话然后让Bert可以输出该句话，为了防止直接输出，我们要破坏输入的句子。</p>
+<p>以下是几种破坏的方法：</p>
+<p>MASS: MAsked Sequence to Sequence pre-training</p>
+<p>BART: Bidirectional and Auto-Regressive Transformer</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuvsnlvi3j314d0u0acu.jpg" alt="image-20211028114959804" style="zoom:33%;" />
+
+<p>MASS就是随机盖住一个词，BART有很多方法，其中Text Infilling效果最好。</p>
+<p>Text Infilling就是可以在没有词的地方假装盖住，让模型发现这里没有词，或者一次盖住很多个词，让模型全部补全，或者两者混用。</p>
+<p>而Permutation和Rotation效果都很不好，因为他们破坏了模型对句子的认知，模型见到的全是乱七八糟的句子，很难学会什么东西。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvuvw07k8uj31pa0momzj.jpg" alt="image-20211028115313417" style="zoom:25%;" />
+
+<h4 id="UniLM"><a href="#UniLM" class="headerlink" title="UniLM"></a>UniLM</h4><p>一个神奇的Model，它即可作为Encoder也可作为Decoder，也可以作为Encoder+Decoder（即Seq2Seq）。</p>
+<p>他可以作为Bert或者GPT（此时只能Attendtion左边的token）或者BART/MASS。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvv0tn7m9nj315e0u0dld.jpg" alt="image-20211028144355962" style="zoom:33%;" />
+
+<h4 id="ELECTRA"><a href="#ELECTRA" class="headerlink" title="ELECTRA"></a>ELECTRA</h4><p>ELECTRA用一个small bert输出一个句子，该句子包含一个由small bert篡改的token的句子，然后ELECTRA去句子里抓住这个token。small bert水平不要太好，不然生成的token和原token一样就没法训练ELECTRA了。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvv15ix4dkj30u00yttap.jpg" alt="image-20211028145521973" style="zoom:33%;" />
+
+<p>效果出奇的好，只需要四分之一的数据就能达到和其他主流模型一样的分数。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gvv16uh0i9j31sr0u0tcd.jpg" alt="image-20211028145638008" style="zoom:33%;" />
+
+<h4 id="Sentence-Level-Embedding-Vector"><a href="#Sentence-Level-Embedding-Vector" class="headerlink" title="Sentence-Level Embedding Vector"></a>Sentence-Level Embedding Vector</h4><img src="https://tva1.sinaimg.cn/large/008i3skNly1gw4cg9ts79j314c0u00vo.jpg" alt="image-20211105161616129" style="zoom:33%;" />
+
+<p>句子级别的嵌入向量，与word embedding类似，是sentence embedding。</p>
+<p><strong>Skip Thought</strong>：输入这个句子，预测下一个句子。运算速度很慢，对性能要求很高。</p>
+<p><strong>Quick Thought：</strong>对每一个句子都是走一遍Encoder，然后用返回的Sentence embedding计算similarity。</p>
+<p>在原始的Bert训练中，有两种任务：</p>
+<ol>
+<li>NSP: Next Sentence Prediction. 判断[SEP]后面的是不是本句子的下一个句子，效果较差。用在RoBERTa中。<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw4d0ualzhj31280m0myl.jpg" alt="image-20211105163604978" style="zoom:33%;" /></li>
+<li>SOP: Sentence Order Prediction. 判断这两个句子的顺序是否颠倒。用在AlBERT和structBERT(Alice)中。</li>
+</ol>
+<h3 id="ERNIE"><a href="#ERNIE" class="headerlink" title="ERNIE"></a>ERNIE</h3><p>BERT加上external knowledge就进化成了ERNIE。</p>
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gw4d6rrxh1j31k70u0afj.jpg" alt="image-20211105164145380" style="zoom:25%;" />
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">JfyhDcm</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://jfyhdcm.github.io/2021/10/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP7:Bert/">https://jfyhdcm.github.io/2021/10/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP7:Bert/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9D%8E%E5%AE%8F%E6%AF%85/">李宏毅</a><a class="post-meta__tags" href="/tags/Bert/">Bert</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/05/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP6:NLP%20tasks/"><img class="prev-cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">李宏毅NLP6:NLP tasks</div></div></a></div><div class="next-post pull-right"><a href="/2021/10/25/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP1:Speech%20Recgnition/"><img class="next-cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">李宏毅NLP1:Speech Recgnition</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/11/27/李宏毅NLP/李宏毅NLP8:GPT-3/" title="李宏毅NLP8:GPT-3"><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-27</div><div class="title">李宏毅NLP8:GPT-3</div></div></a></div><div><a href="/2021/11/27/李宏毅NLP/李宏毅NLP9:Mutilingual BERT/" title="李宏毅NLP9:Multilingual BERT"><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-27</div><div class="title">李宏毅NLP9:Multilingual BERT</div></div></a></div><div><a href="/2021/11/23/李宏毅NLP/李宏毅BERT和他的朋友们/" title="李宏毅BERT和他的朋友们"><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-23</div><div class="title">李宏毅BERT和他的朋友们</div></div></a></div><div><a href="/2021/10/25/李宏毅NLP/李宏毅NLP1:Speech Recgnition/" title="李宏毅NLP1:Speech Recgnition"><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-25</div><div class="title">李宏毅NLP1:Speech Recgnition</div></div></a></div><div><a href="/2021/11/05/李宏毅NLP/李宏毅NLP6:NLP tasks/" title="李宏毅NLP6:NLP tasks"><img class="cover" src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-05</div><div class="title">李宏毅NLP6:NLP tasks</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/ava.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">JfyhDcm</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">23</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JfyhDcm"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JfyhDcm" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:836439982@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">千金难买寸光阴</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Bert"><span class="toc-number">1.</span> <span class="toc-text">Bert</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter-One"><span class="toc-number">1.1.</span> <span class="toc-text">Chapter One</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-pre-train-model%EF%BC%9F"><span class="toc-number">1.1.1.</span> <span class="toc-text">What is pre-train model？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#How-to-pre-train"><span class="toc-number">1.1.2.</span> <span class="toc-text">How to pre-train?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Input"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Output"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">Output</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#How-to-fine-tune"><span class="toc-number">1.1.3.</span> <span class="toc-text">How to fine-tune?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Adapter"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">Adapter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Weighted-Layer"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">Weighted Layer</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter-Two"><span class="toc-number">1.2.</span> <span class="toc-text">Chapter Two</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Self-supervised-Learning"><span class="toc-number">1.2.1.</span> <span class="toc-text">Self-supervised Learning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#How"><span class="toc-number">1.2.2.</span> <span class="toc-text">How?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Why%EF%BC%9F"><span class="toc-number">1.2.3.</span> <span class="toc-text">Why？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ELMo"><span class="toc-number">1.2.4.</span> <span class="toc-text">ELMo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bert-1"><span class="toc-number">1.2.5.</span> <span class="toc-text">Bert</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Masking-Input"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">Masking Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SpanBert"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">SpanBert</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bert%E4%B8%8D%E5%96%84%E8%A8%80%E8%BE%9E%EF%BC%9F"><span class="toc-number">1.2.5.3.</span> <span class="toc-text">Bert不善言辞？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MASS-BART"><span class="toc-number">1.2.5.4.</span> <span class="toc-text">MASS&#x2F;BART</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UniLM"><span class="toc-number">1.2.5.5.</span> <span class="toc-text">UniLM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ELECTRA"><span class="toc-number">1.2.5.6.</span> <span class="toc-text">ELECTRA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sentence-Level-Embedding-Vector"><span class="toc-number">1.2.5.7.</span> <span class="toc-text">Sentence-Level Embedding Vector</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ERNIE"><span class="toc-number">1.2.6.</span> <span class="toc-text">ERNIE</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP9:Mutilingual%20BERT/" title="李宏毅NLP9:Multilingual BERT"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="李宏毅NLP9:Multilingual BERT"/></a><div class="content"><a class="title" href="/2021/11/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP9:Mutilingual%20BERT/" title="李宏毅NLP9:Multilingual BERT">李宏毅NLP9:Multilingual BERT</a><time datetime="2021-11-27T15:48:14.917Z" title="Created 2021-11-27 23:48:14">2021-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP8:GPT-3/" title="李宏毅NLP8:GPT-3"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="李宏毅NLP8:GPT-3"/></a><div class="content"><a class="title" href="/2021/11/27/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP8:GPT-3/" title="李宏毅NLP8:GPT-3">李宏毅NLP8:GPT-3</a><time datetime="2021-11-27T05:24:17.075Z" title="Created 2021-11-27 13:24:17">2021-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/26/%E8%A6%81%E5%AD%A6%E7%9A%84%E5%86%85%E5%AE%B9/" title="No title"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2021/11/26/%E8%A6%81%E5%AD%A6%E7%9A%84%E5%86%85%E5%AE%B9/" title="No title">No title</a><time datetime="2021-11-26T13:21:34.626Z" title="Created 2021-11-26 21:21:34">2021-11-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/23/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85BERT%E5%92%8C%E4%BB%96%E7%9A%84%E6%9C%8B%E5%8F%8B%E4%BB%AC/" title="李宏毅BERT和他的朋友们"><img src="https://i.loli.net/2021/06/01/OSzsQUGD9CIeL2V.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="李宏毅BERT和他的朋友们"/></a><div class="content"><a class="title" href="/2021/11/23/%E6%9D%8E%E5%AE%8F%E6%AF%85NLP/%E6%9D%8E%E5%AE%8F%E6%AF%85BERT%E5%92%8C%E4%BB%96%E7%9A%84%E6%9C%8B%E5%8F%8B%E4%BB%AC/" title="李宏毅BERT和他的朋友们">李宏毅BERT和他的朋友们</a><time datetime="2021-11-23T12:13:30.627Z" title="Created 2021-11-23 20:13:30">2021-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/20/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83%E5%92%8CBeta%E5%88%86%E5%B8%83/" title="No title"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2021/11/20/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83%E5%92%8CBeta%E5%88%86%E5%B8%83/" title="No title">No title</a><time datetime="2021-11-20T10:43:42.695Z" title="Created 2021-11-20 18:43:42">2021-11-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By JfyhDcm</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
